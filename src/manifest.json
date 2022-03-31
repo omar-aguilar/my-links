@@ -6,6 +6,9 @@
   "action": {
     "default_popup": "popup.html"
   },
+  "omnibox": {
+    "keyword": "AUTO_GENERATED"
+  },
   "background": {
     "service_worker": "background.js"
   },

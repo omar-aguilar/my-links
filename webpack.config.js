@@ -70,6 +70,9 @@ module.exports = {
             const baseManifest = JSON.parse(content);
             const manifest = {
               ...baseManifest,
+              omnibox: {
+                keyword: process.env.DOMAIN,
+              },
               version: process.env.npm_package_version,
               description: process.env.npm_package_description,
               host_permissions: [`*://${process.env.DOMAIN}/`],

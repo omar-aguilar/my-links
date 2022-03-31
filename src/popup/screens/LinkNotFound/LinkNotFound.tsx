@@ -7,7 +7,7 @@ const LinkNotFound: FunctionComponent = () => {
   useDocumentTitle('My Links - Link Not Found');
   const [searchParams] = useSearchParams();
   const [link, setLink] = useState('');
-  const [similarities, setSimilarities] = useState<string[]>([]);
+  const [similarities, setSimilarities] = useState<Link[]>([]);
   useEffect(() => {
     setLink(searchParams.get('link') || '');
   }, [searchParams]);
@@ -16,11 +16,12 @@ const LinkNotFound: FunctionComponent = () => {
     if (!link) {
       return;
     }
-    const message: Message = {
+    const message: MessageManager.Message = {
       action: 'similarities',
-      data: { link, tolerance: 3 },
+      data: { rawLink: link },
     };
-    chrome.runtime.sendMessage(message, (linkSimilarities: string[]) => {
+    chrome.runtime.sendMessage(message, (similaritiesResponse: Similarity[]) => {
+      const linkSimilarities = similaritiesResponse.map((similarity) => similarity.link);
       setSimilarities(linkSimilarities);
     });
   }, [link]);
@@ -31,22 +32,24 @@ const LinkNotFound: FunctionComponent = () => {
         <span>Link not found </span>
         <span className={styles.link}>{link}</span>
       </h1>
-      <div>
-        <h1>Maybe you meant:</h1>
-        <ul>
-          {similarities.map((similarity) => {
-            return (
-              <li key={similarity}>
-                <h2>
-                  <a className={styles.link} href={`http://${similarity}`}>
-                    {similarity}
-                  </a>
-                </h2>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      {similarities.length > 0 && (
+        <div>
+          <h1>Maybe you meant:</h1>
+          <ul>
+            {similarities.map((similarity) => {
+              return (
+                <li key={similarity.rawLink}>
+                  <h2>
+                    <a className={styles.link} href={`http://${similarity.rawLink}`}>
+                      {similarity.rawLink}
+                    </a>
+                  </h2>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </>
   );
 };
