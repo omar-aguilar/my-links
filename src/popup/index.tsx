@@ -1,10 +1,11 @@
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import App from './App';
 
-render(
+const container = document.getElementById('app') as HTMLElement;
+const root = createRoot(container);
+root.render(
   <HashRouter>
     <App />
-  </HashRouter>,
-  document.getElementById('app')
+  </HashRouter>
 );

@@ -1,5 +1,5 @@
 const YahooSearch = (): RawLinkHandler => {
-  const urlFilter = { hostSuffix: 'bing.com' };
+  const urlFilter = { hostSuffix: 'yahoo.com' };
   const searchQueryParam = 'p';
   return {
     urlFilter,

@@ -13,7 +13,7 @@ class CustomLink implements Link {
   }
 
   isValid(): boolean {
-    return this.rawLink === '';
+    return this.rawLink !== '';
   }
 
   toString(): string {

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LinkNotFound renders without exploding 1`] = `
+<h1>
+  <span>
+    Link not found 
+  </span>
+  <span
+    class="link"
+  />
+</h1>
+`;

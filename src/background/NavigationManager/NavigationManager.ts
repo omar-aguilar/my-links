@@ -13,7 +13,7 @@ function NavigationManager(
     const linkURL = new URL(url);
     try {
       const link = await linkManager.getLink(linkURL);
-      if (link.isValid()) {
+      if (!link.isValid()) {
         console.log('not a valid link, skipping');
         return;
       }

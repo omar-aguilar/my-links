@@ -3,7 +3,6 @@ module.exports = {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   roots: ['<rootDir>/src'],
-  setupFiles: ['<rootDir>/jest.setup.js'],
   transform: {
     '\\.(?:t|j)sx?$': 'babel-jest',
   },
@@ -11,5 +10,4 @@ module.exports = {
   moduleNameMapper: {
     '\\.s?css$': 'identity-obj-proxy',
   },
-  snapshotSerializers: ['enzyme-to-json/serializer'],
 };

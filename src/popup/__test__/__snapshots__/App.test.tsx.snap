@@ -1,3 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App should not explode 1`] = `<RoutesContainer />`;
+exports[`App renders home page 1`] = `
+<section
+  class="container"
+>
+  <div>
+    My Links Home
+  </div>
+</section>
+`;
+
+exports[`App renders link not found page 1`] = `
+<section
+  class="container"
+>
+  <h1>
+    <span>
+      Link not found 
+    </span>
+    <span
+      class="link"
+    />
+  </h1>
+</section>
+`;
+
+exports[`App renders not found page 1`] = `
+<section
+  class="container"
+>
+  <div>
+    Not Found
+  </div>
+</section>
+`;
