@@ -10,4 +10,6 @@ module.exports = {
   moduleNameMapper: {
     '\\.s?css$': 'identity-obj-proxy',
   },
+  testPathIgnorePatterns: ['\\.mock\\.tsx?$'],
+  coveragePathIgnorePatterns: ['\\.mock\\.tsx?$'],
 };

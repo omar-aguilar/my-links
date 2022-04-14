@@ -9,7 +9,6 @@ function MessageManager(db: DB): ChromeMessageManager {
     if (action === 'similarities' && data.rawLink) {
       const link = new Link(data.rawLink);
       db.getSimilarities(link).then((similarities) => {
-        console.log('similarities', similarities);
         sendResponse(similarities);
       });
     }
