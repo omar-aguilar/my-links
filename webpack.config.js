@@ -75,7 +75,6 @@ module.exports = {
               },
               version: process.env.npm_package_version,
               description: process.env.npm_package_description,
-              host_permissions: [`*://${process.env.DOMAIN}/`],
             };
             return JSON.stringify(manifest, null, 2);
           },

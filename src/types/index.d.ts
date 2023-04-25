@@ -9,83 +9,98 @@ declare module '*.csv' {
   export = content;
 }
 
-type Domain = string;
-
-interface RawLinkHandler {
-  urlFilter: chrome.events.UrlFilter;
-  canHandleURL: (url: URL) => boolean;
-  getRawLink: (url: URL) => string;
-}
-
-type SourceLink = URL;
-type RawLink = string;
-interface Link {
-  domain: string;
-  slug: string;
-  rawLink: string;
-
-  isValid(): boolean;
-  toString(): string;
-}
-type ExternalLink = string;
-type Similarity = {
-  link: Link;
+type ShortLinkEntry = {
+  shortLink: string;
   description: string;
+  link: string;
+  tags?: string[];
 };
 
-interface LinkManager {
-  getLink(url: SourceLink): Promise<Link>;
+type URLFilter = chrome.events.UrlFilter[];
+type SearchHandler = {
+  urlFilter: URLFilter;
+  getSearchTerm: (url: URL) => string;
+};
+
+type LinkHandler = {
+  urlFilter: URLFilter;
+  getLink: (url: URL) => Promise<ShortLinkEntry>;
+};
+
+type MessageHandler<RequestMessage = any, ResponseMessage = any> = {
+  canHandle: (message: RequestMessage) => boolean;
+  handle: (message: RequestMessage, sendResponse: (response?: ResponseMessage) => void) => void;
+};
+
+interface ShortLinkAPI {
+  resolve: (shortLink: string) => Promise<ShortLinkEntry>;
+  search: (shortLink: string) => Promise<ShortLinkEntry[]>;
+  add: (linkData: ShortLinkEntry) => Promise<boolean>;
+  update: (linkData: ShortLinkEntry) => Promise<boolean>;
+  remove: (shortLink: string) => Promise<boolean>;
 }
 
-declare namespace ChromeNavigationManager {
-  type OnBeforeNavigate = (
-    details: chrome.webNavigation.WebNavigationParentedCallbackDetails
-  ) => Promise<void>;
-}
-interface ChromeNavigationManager {
-  onBeforeNavigate: ChromeNavigationManager.OnBeforeNavigate;
-}
+type BrowserAPIs = {
+  storage: StorageWrapper;
+  webNavigation: WebNavigationWrapper;
+  runtime: RuntimeWrapper;
+  tabs: TabsWrapper;
+  omnibox: OmniboxWrapper;
+};
 
-interface RedirectManager {
-  redirect(link: Link, externalLink: ExternalLink): void;
-}
-
-interface DB {
-  getExternalLink: (link: Link) => Promise<ExternalLink>;
-  getSimilarities: (link: Link) => Promise<Similarity[]>;
-}
-
-declare namespace ChromeMessageManager {
-  type RuntimeSendResponseFn = (response?: any) => void;
-  type Sender = chrome.runtime.MessageSender;
-  type OnMessage = (
-    message: any,
-    sender: ChromeMessageManager.Sender,
-    sendResponse: ChromeMessageManager.RuntimeSendResponseFn
-  ) => boolean;
-}
-interface ChromeMessageManager {
-  onMessage: ChromeMessageManager.OnMessage;
-}
-
-declare namespace MessageManager {
-  type SIMILARITIES = 'similarities';
-  type SimilaritiesData = {
-    rawLink: RawLink;
+declare namespace WebNavigationWrapper {
+  type CallbackDetails = {
+    frameId: number;
+    tabId: number;
+    url: string;
   };
-  type SimilaritiesMessage = {
-    action: SIMILARITIES;
-    data: SimilaritiesData;
-  };
-  type Message = SimilaritiesMessage;
+}
+interface WebNavigationWrapper<Filters = any> {
+  onBeforeNavigate: (
+    callback: (details: WebNavigationWrapper.CallbackDetails) => void | Promise<void>,
+    filters: Filters
+  ) => void;
 }
 
-declare namespace ChromeOmniboxManager {
-  type SuggestFn = (suggestResults: chrome.omnibox.SuggestResult[]) => void;
-  type OnInputEntered = (rawLink: string) => boolean;
-  type OnInputChanged = (inputText: string, sendSuggestions: SuggestFn) => boolean;
+declare namespace StorageWrapper {
+  type Changes = Record<string, any>;
 }
-interface ChromeOmniboxManager {
-  onInputEntered: ChromeOmniboxManager.OnInputEntered;
-  onInputChanged: ChromeOmniboxManager.OnInputChanged;
+interface StorageWrapper {
+  onChanged: (keys: string[], callback: (changes: StorageWrapper.Changes) => void) => void;
+  set: (values: StorageWrapper.Changes) => Promise<void>;
+  get: (values: string[]) => Promise<StorageWrapper.Changes>;
+}
+
+interface RuntimeWrapper {
+  onMessage: (callback: (message: any, sendResponse: (response?: any) => void) => void) => void;
+  sendMessage: <Message = any, Response = any>(message: Message) => Promise<Response>;
+  getURL: (path: string) => string;
+}
+
+declare namespace TabsWrapper {
+  type UpdateProperties = {
+    url: string;
+  };
+}
+interface TabsWrapper {
+  update: (tabId: number, options: TabsWrapper.UpdateProperties) => void;
+  updateCurrent: (options: TabsWrapper.UpdateProperties) => void;
+}
+
+declare namespace OmniboxWrapper {
+  type OnInputEnteredCallback = (input: string) => void;
+  type OnInputChangedCallback<SuggestResult = any> = (
+    input: string,
+    suggest: (suggestResults: SuggestResult[]) => void
+  ) => void;
+  type OmniboxEvent = 'inputChanged' | 'inputEntered';
+  type OmniboxHandler<Event extends OmniboxEvent> = Event extends 'inputChanged'
+    ? OnInputChangedCallback
+    : Event extends 'inputEntered'
+    ? OnInputEnteredCallback
+    : never;
+}
+interface OmniboxWrapper<SuggestResult = any> {
+  onInputEntered: (callback: OmniboxWrapper.OnInputEnteredCallback) => void;
+  onInputChanged: (callback: OmniboxWrapper.OnInputChangedCallback<SuggestResult>) => void;
 }

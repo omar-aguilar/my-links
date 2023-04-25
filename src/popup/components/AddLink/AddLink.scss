@@ -1,0 +1,18 @@
+/* stylelint-disable color-named */
+.container {
+  background-color: violet;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  color: blue;
+}
+
+.button {
+  color: green;
+}
+
+.error {
+  color: red;
+}
