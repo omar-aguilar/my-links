@@ -1,61 +1,45 @@
 import { useState } from 'react';
-import styles from './TagList.scss';
+import TextField, { TextInputWithButton } from '../TextField';
+import Tag from './Tag';
 
 type TagListProps = {
-  initStrings: string[];
-  onStringsChanged: (strings: string[]) => void;
+  value: string[];
+  onChanged: (strings: string[]) => void;
 };
 
-const TagList = ({ initStrings = [], onStringsChanged }: TagListProps) => {
-  const [strings, setStrings] = useState(initStrings);
-  const [newString, setNewString] = useState('');
+const TagList = ({ value, onChanged }: TagListProps) => {
+  const [tags, setTags] = useState(value);
 
-  const addString = () => {
-    if (!newString) {
+  const addString = (newTag: string) => {
+    if (!newTag) {
       return;
     }
-    const newStrings = [...strings, newString];
-    setStrings(newStrings);
-    onStringsChanged(newStrings);
-    setNewString('');
+    const isExistingTag = tags.find((tag) => tag === newTag);
+    if (isExistingTag) {
+      return;
+    }
+
+    const newStrings = [...tags, newTag];
+    setTags(newStrings);
+    onChanged(newStrings);
   };
 
   const removeString = (index: number) => {
-    const newStrings = [...strings];
+    const newStrings = [...tags];
     newStrings.splice(index, 1);
-    setStrings(newStrings);
-    onStringsChanged(newStrings);
+    setTags(newStrings);
+    onChanged(newStrings);
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles['input-container']}>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Add a tag"
-          value={newString}
-          onChange={(e) => setNewString(e.target.value)}
-        />
-        <button type="button" className={styles.button} onClick={addString}>
-          Add
-        </button>
-      </div>
-      <div className={styles['tag-container']}>
-        {strings.map((string, index) => (
-          <div className={styles.string} key={string}>
-            <span>{string}</span>
-            <button
-              type="button"
-              className={styles['remove-button']}
-              onClick={() => removeString(index)}
-            >
-              Remove
-            </button>
-          </div>
+    <>
+      <TextField label="Tag List" value="" onChange={addString} Input={TextInputWithButton} />
+      <div className="flex mb-2">
+        {tags.map((tag, index) => (
+          <Tag key={tag} value={tag} onRemove={() => removeString(index)} />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

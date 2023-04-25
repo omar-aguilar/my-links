@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getSimilaritiesSendMessage } from '../../../background/manager/extension/Message/messages';
 import getBrowserAPIs from '../../../background/api/web-extension';
-import styles from './Similarities.scss';
 
 type SimilartiesProps = {
   shortLink: string;
@@ -30,16 +29,21 @@ const Similarities = ({ shortLink }: SimilartiesProps) => {
 
   return (
     <div>
-      <h1>Maybe you meant:</h1>
-      <ul>
-        {similarities.map((similarity) => {
+      <h2>Maybe you meant:</h2>
+      <ul className="grid grid-cols-4 gap-2">
+        {similarities.map((shortLinkEntry) => {
           return (
-            <li key={similarity.shortLink}>
-              <h2>
-                <a className={styles.link} href={`http://${similarity.shortLink}`}>
-                  {similarity.shortLink}
-                </a>
-              </h2>
+            <li
+              key={shortLinkEntry.shortLink}
+              className="border py-2 px-4 rounded bg-gray-50 flex justify-center flex-col"
+            >
+              <a
+                className="text-violet-500 text-sm font-bold"
+                href={`https://${shortLinkEntry.shortLink}`}
+              >
+                {shortLinkEntry.shortLink}
+              </a>
+              {shortLinkEntry.description && <div>{shortLinkEntry.description}</div>}
             </li>
           );
         })}

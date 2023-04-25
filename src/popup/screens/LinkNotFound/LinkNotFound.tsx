@@ -2,8 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import Similarities from '../../components/Similarities';
-import AddLink from '../../components/AddLink/AddLink';
-import styles from './LinkNotFound.scss';
+import AddShortLink from '../../components/AddShortLink';
 
 const LinkNotFound: FunctionComponent = () => {
   useDocumentTitle('My Links - Link Not Found');
@@ -18,13 +17,14 @@ const LinkNotFound: FunctionComponent = () => {
     return null;
   }
 
+  const redirect = (shortLinkEntry: ShortLinkEntry) => {
+    window.location.replace(`https://${shortLinkEntry.shortLink}`);
+  };
+
   return (
     <>
-      <h1>
-        <span>Link not found </span>
-        <span className={styles['link-not-found']}>{shortLink}</span>
-      </h1>
-      <AddLink onLinkAdded={console.log} initShortLink={shortLink} />
+      <h1>Link not found</h1>
+      <AddShortLink onLinkAdded={redirect} initShortLink={shortLink} />
       <Similarities shortLink={shortLink} />
     </>
   );

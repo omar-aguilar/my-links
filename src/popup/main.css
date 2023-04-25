@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body;
+  }
+
+  h1 {
+    @apply text-2xl;
+    @apply text-slate-900;
+  }
+
+  h2 {
+    @apply text-xl;
+    @apply text-slate-800;
+  }
+}

@@ -1,16 +1,14 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const postcssPresetEnv = require('postcss-preset-env');
 const stylelint = require('stylelint');
 
-const postcss = [
-  postcssPresetEnv({
-    features: {
-      'nesting-rules': true,
-    },
-  }),
-];
-
 module.exports = {
-  plugins: postcss,
+  plugins: {
+    'postcss-import': {},
+    'tailwindcss/nesting': 'postcss-nesting',
+    tailwindcss: {},
+    'postcss-preset-env': {
+      features: { 'nesting-rules': false },
+    },
+  },
   stylelint,
 };

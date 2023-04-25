@@ -24,6 +24,7 @@ module.exports = {
     eqeqeq: ['error', 'always', { null: 'ignore' }],
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     'max-len': ['error', { code: 100, ignorePattern: '^import .*' }],
+    'react/require-default-props': 'off',
     'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
