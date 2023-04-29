@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TextField, { TextInputWithButton } from '../TextField';
 import Tag from './Tag';
 
@@ -9,6 +9,10 @@ type TagListProps = {
 
 const TagList = ({ value, onChanged }: TagListProps) => {
   const [tags, setTags] = useState(value);
+
+  useEffect(() => {
+    setTags(value);
+  }, [value]);
 
   const addString = (newTag: string) => {
     if (!newTag) {

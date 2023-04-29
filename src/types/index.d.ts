@@ -13,7 +13,12 @@ type ShortLinkEntry = {
   shortLink: string;
   description: string;
   link: string;
-  tags?: string[];
+  tags: string[];
+};
+
+type DomainEntry = {
+  domain: string;
+  description: string;
 };
 
 type URLFilter = chrome.events.UrlFilter[];
@@ -27,10 +32,29 @@ type LinkHandler = {
   getLink: (url: URL) => Promise<ShortLinkEntry>;
 };
 
-type MessageHandler<RequestMessage = any, ResponseMessage = any> = {
-  canHandle: (message: RequestMessage) => boolean;
-  handle: (message: RequestMessage, sendResponse: (response?: ResponseMessage) => void) => void;
+declare namespace Message {
+  type BaseMessage<Action, Data> = {
+    action: Action;
+    data: Data;
+  };
+  type BaseMessageResponse<Response> = Response;
+  type MessageHandlerConfig<Action = any, MessageBody = any, Response = any> = {
+    handler: (
+      message: BaseMessage<Action, MessageBody>,
+      sendResponse: (response: BaseMessageResponse<Response>) => void
+    ) => void;
+    getMessage: (messageBody: MessageBody) => BaseMessage<Action, MessageBody>;
+  };
+}
+// TODO: Move types to /messages/types.d.ts?
+type MessageHandlersMap<Handlers extends Record<string, Message.MessageHandlerConfig>> = {
+  [Key in keyof Handlers]: Handlers[Key]['handler'];
 };
+type MessageCreatorsMap<Handlers extends Record<string, Message.MessageHandlerConfig>> = {
+  [Key in keyof Handlers]: Handlers[Key]['getMessage'];
+};
+type EntryMessageHandler = [string, MessageHandler][];
+type MessageHandler = Message.MessageHandlerConfig['handler'];
 
 interface ShortLinkAPI {
   resolve: (shortLink: string) => Promise<ShortLinkEntry>;
@@ -48,6 +72,8 @@ type BrowserAPIs = {
   omnibox: OmniboxWrapper;
 };
 
+type BrowserAPIUnregisterFn = () => void;
+
 declare namespace WebNavigationWrapper {
   type CallbackDetails = {
     frameId: number;
@@ -59,14 +85,17 @@ interface WebNavigationWrapper<Filters = any> {
   onBeforeNavigate: (
     callback: (details: WebNavigationWrapper.CallbackDetails) => void | Promise<void>,
     filters: Filters
-  ) => void;
+  ) => BrowserAPIUnregisterFn;
 }
 
 declare namespace StorageWrapper {
   type Changes = Record<string, any>;
 }
 interface StorageWrapper {
-  onChanged: (keys: string[], callback: (changes: StorageWrapper.Changes) => void) => void;
+  onChanged: (
+    keys: string[],
+    callback: (changes: StorageWrapper.Changes) => void
+  ) => BrowserAPIUnregisterFn;
   set: (values: StorageWrapper.Changes) => Promise<void>;
   get: (values: string[]) => Promise<StorageWrapper.Changes>;
 }

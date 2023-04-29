@@ -1,12 +1,13 @@
-import { FunctionComponent } from 'react';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
+import Search from '../../components/Search';
 
-const Home: FunctionComponent = () => {
-  useDocumentTitle('My Links - Home');
+const Home = () => {
+  useDocumentTitle('Home');
   return (
-    <>
-      <div>My Links Home</div>;
-    </>
+    <div>
+      <h1>My Links Home</h1>
+      <Search />
+    </div>
   );
 };
 

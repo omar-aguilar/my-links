@@ -1,4 +1,4 @@
-import XMarkIcon from '../../icons/XMarkIcon';
+import XMark from '../../icons/XMark';
 
 type TagProps = {
   value: string;
@@ -9,7 +9,7 @@ const Tag = ({ value, onRemove }: TagProps) => {
   return (
     <div className="flex items-center bg-gray-200 rounded p-1 mr-2">
       <div className="text-bold">{value}</div>
-      <XMarkIcon onClick={onRemove} />
+      <XMark onClick={onRemove} />
     </div>
   );
 };

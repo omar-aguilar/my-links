@@ -1,17 +1,12 @@
 import { getEmptyShortLinkEntry, parseRawShortLink } from '../../../utils';
 
 const ShortLinkMemoryDB = () => {
+  // TODO: switch to Record<string, Record<string, ShortLinkEntry>>
+  // each domain will have its own mini db.
   const db: Record<string, ShortLinkEntry> = {};
-  const keys: string[] = [];
-  const keysSet: Set<string> = new Set();
 
   const addEntry = (shortLink: string, data: ShortLinkEntry): boolean => {
     db[shortLink] = data;
-    if (keysSet.has(shortLink)) {
-      return false;
-    }
-    keysSet.add(shortLink);
-    keys.push(shortLink);
     return true;
   };
 
@@ -37,11 +32,12 @@ const ShortLinkMemoryDB = () => {
   };
 
   const search = (shortLink: string): ShortLinkEntry[] => {
-    const parsedLink = parseRawShortLink(shortLink);
-    const cleanSlug = parsedLink.slug.replace(/[-_]/g, '');
+    const { domain, slug } = parseRawShortLink(shortLink);
+    const cleanSlug = slug.replace(/[-_]/g, '');
     const searchResults = Object.values(db).filter((entry) => {
+      const parsedLink = parseRawShortLink(entry.shortLink);
       const cleanKey = entry.shortLink.replace(/[-_]/g, '');
-      return cleanKey.includes(cleanSlug);
+      return parsedLink.domain === domain && cleanKey.includes(cleanSlug);
     });
     return searchResults;
   };
@@ -64,8 +60,8 @@ const LocalMemoryAPI = (): ShortLinkAPI => {
   };
 
   const search: ShortLinkAPI['search'] = (shortLink) => {
-    const similarities = db.search(shortLink);
-    return Promise.resolve(similarities);
+    const searchResults = db.search(shortLink);
+    return Promise.resolve(searchResults);
   };
 
   const add: ShortLinkAPI['add'] = (linkData) => {

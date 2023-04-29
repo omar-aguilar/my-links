@@ -1,28 +1,51 @@
-import { useState } from 'react';
-import TextField, { TextInputWithDomain } from '../TextField';
+import { useEffect, useState } from 'react';
+import TextField, { TextInputWithDomainSelector, BaseTextInput } from '../TextField';
 import TagList from '../TagList';
 
 type ShortLinkProps = {
+  title: string;
   initShortLink?: string;
   buttonLabel: string;
+  defaultValues?: ShortLinkEntry;
   onAction: (shortLink: ShortLinkEntry) => void;
 };
 
-const ShortLinkForm = ({ initShortLink = '', buttonLabel, onAction }: ShortLinkProps) => {
+const ShortLinkForm = ({
+  title,
+  initShortLink = '',
+  buttonLabel,
+  defaultValues,
+  onAction,
+}: ShortLinkProps) => {
   const [shortLink, setShortLink] = useState(initShortLink);
   const [link, setLink] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
 
+  useEffect(() => {
+    const isSameShortLink = defaultValues?.shortLink === initShortLink;
+    if (!defaultValues || !isSameShortLink) {
+      return;
+    }
+    setLink(defaultValues.link);
+    setDescription(defaultValues.description);
+    setTags(defaultValues.tags);
+  }, [defaultValues, initShortLink]);
+
+  useEffect(() => {
+    setShortLink(initShortLink);
+  }, [initShortLink]);
+
   return (
     <form className="my-2 p-2 rounded shadow-md rounded border border-gray-400">
-      <h2 className="font-bold mb-2">Create new short link</h2>
+      <h2 className="font-bold mb-2">{title}</h2>
       <div className="columns-2">
         <TextField
           label="Short Link"
           value={shortLink}
           onChange={(value) => setShortLink(value)}
-          Input={TextInputWithDomain}
+          readOnly={Boolean(initShortLink)}
+          Input={initShortLink ? BaseTextInput : TextInputWithDomainSelector}
         />
         <TextField label="Destination" value={link} onChange={(value) => setLink(value)} />
       </div>

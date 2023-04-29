@@ -1,11 +1,11 @@
 import { IconProps } from './types';
 
-const XMarkIcon = ({ onClick }: IconProps) => (
+const XMark = ({ onClick, className = '' }: IconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="w-5 h-5"
+    className={`w-5 h-5 ${className}`}
     onClick={onClick}
   >
     <path
@@ -16,4 +16,4 @@ const XMarkIcon = ({ onClick }: IconProps) => (
   </svg>
 );
 
-export default XMarkIcon;
+export default XMark;

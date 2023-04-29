@@ -1,14 +1,32 @@
-import { ComponentType } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
 import BaseTextInput, { InputProps } from './BaseTextInput';
 
 type TextFieldProps = {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  readOnly?: boolean;
   Input?: ComponentType<InputProps>;
 };
 
-const TextField = ({ label, value, Input = BaseTextInput, onChange }: TextFieldProps) => {
+const TextField = ({
+  label,
+  value,
+  readOnly = false,
+  onChange,
+  Input = BaseTextInput,
+}: TextFieldProps) => {
+  const [currentValue, setCurrentValue] = useState(value);
+
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
+  const handleChange = (newValue: string) => {
+    setCurrentValue(newValue);
+    onChange(newValue);
+  };
+
   return (
     <div className="mb-2">
       <label className="block" htmlFor={label}>
@@ -17,7 +35,7 @@ const TextField = ({ label, value, Input = BaseTextInput, onChange }: TextFieldP
           className="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300
          focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
         >
-          <Input name={label} value={value} onChange={onChange} />
+          <Input name={label} value={currentValue} onChange={handleChange} readOnly={readOnly} />
         </div>
       </label>
     </div>

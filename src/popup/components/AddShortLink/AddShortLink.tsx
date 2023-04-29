@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addLinkSendMessage } from '../../../background/manager/extension/Message/messages';
+import { shortLinkMessageCreators } from '../../../background/manager/extension/Message';
 import getBrowserAPIs from '../../../background/api/web-extension';
 import ShortLinkForm from '../ShortLinkForm/ShortLinkForm';
 
@@ -14,8 +14,9 @@ const AddShortLink = ({ initShortLink = '', onLinkAdded }: AddShortLinkProps) =>
   const [error, setError] = useState('');
 
   const addLink = async (shortLinkEntry: ShortLinkEntry) => {
-    const message = addLinkSendMessage(shortLinkEntry);
-    const response = await browserAPIs.runtime.sendMessage(message);
+    const response = await browserAPIs.runtime.sendMessage(
+      shortLinkMessageCreators.create(shortLinkEntry)
+    );
     if (response.error) {
       setError(response.error);
       return;
@@ -26,6 +27,7 @@ const AddShortLink = ({ initShortLink = '', onLinkAdded }: AddShortLinkProps) =>
   return (
     <>
       <ShortLinkForm
+        title="Create new short link"
         buttonLabel="Create Short Link"
         initShortLink={initShortLink}
         onAction={addLink}

@@ -1,30 +1,45 @@
 import csvData from './data/seedDB.csv';
 import LocalMemoryAPI from './api/short-links/local/memory';
-import SearchEngineLinkHandler, { GoogleSearch } from './manager/link/SearchEngine';
+import SearchEngineLinkHandler, {
+  GoogleSearch,
+  BingSearch,
+  YahooSearch,
+  DuckDuckGoSearch,
+} from './manager/link/SearchEngine';
 import DomainLinkHandler, { DomainWithAPI } from './manager/link/Domain';
-import MessageManager, { SimilaritiesMessage, AddLinkMessage } from './manager/extension/Message';
+import MessageManager, { ShortLinkMessage, DomainMessage } from './manager/extension/Message';
 import OmniboxManager, {
   SuggestionsInputChanged,
   RedirectInputEntered,
 } from './manager/extension/Omnibox';
-import { loadCSVIntoAPI, setMainDomain } from './utils';
+import { loadCSVIntoAPI, registerNonMainDomains, setMainDomain } from './utils';
 import getBrowserAPIs from './api/web-extension';
 
 const extensionMainDomain = process.env.DOMAIN as string;
 
-const localMemoryAPI = LocalMemoryAPI();
+const localAPI = LocalMemoryAPI();
 const browserAPIs = getBrowserAPIs();
 const domainHandler = DomainLinkHandler(browserAPIs);
 const searchEngineHandler = SearchEngineLinkHandler(browserAPIs);
 const messageWrapper = MessageManager(browserAPIs);
 const omniboxManager = OmniboxManager(browserAPIs);
 
-loadCSVIntoAPI(csvData, extensionMainDomain, localMemoryAPI);
+loadCSVIntoAPI(csvData, extensionMainDomain, localAPI);
 setMainDomain(extensionMainDomain);
 
-domainHandler.register(DomainWithAPI(extensionMainDomain, localMemoryAPI));
+domainHandler.register(DomainWithAPI(extensionMainDomain, localAPI));
+registerNonMainDomains((domains: string[]) =>
+  domains.map((domain) => domainHandler.register(DomainWithAPI(domain, localAPI)))
+);
+
 searchEngineHandler.register(GoogleSearch());
-messageWrapper.register(SimilaritiesMessage(localMemoryAPI));
-messageWrapper.register(AddLinkMessage(localMemoryAPI));
-omniboxManager.register('inputChanged', SuggestionsInputChanged(localMemoryAPI));
-omniboxManager.register('inputEntered', RedirectInputEntered(browserAPIs, localMemoryAPI));
+searchEngineHandler.register(BingSearch());
+searchEngineHandler.register(YahooSearch());
+searchEngineHandler.register(DuckDuckGoSearch());
+searchEngineHandler.register(BingSearch());
+
+ShortLinkMessage(localAPI).forEach(([id, handler]) => messageWrapper.register(id, handler));
+DomainMessage().forEach(([id, handler]) => messageWrapper.register(id, handler));
+
+omniboxManager.register('inputChanged', SuggestionsInputChanged(localAPI));
+omniboxManager.register('inputEntered', RedirectInputEntered(browserAPIs, localAPI));

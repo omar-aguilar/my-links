@@ -8,13 +8,13 @@ const SuggestionsInputChanged = (api: ShortLinkAPI) => {
     suggest
   ) => {
     const domainInput = getDomainInput(input);
-    const similarities = await api.search(domainInput);
-    const suggestions = similarities.map<Suggestion>((similarity) => {
+    const searchResults = await api.search(domainInput);
+    const suggestions = searchResults.map<Suggestion>((searchResult) => {
       return {
-        content: similarity.shortLink,
+        content: searchResult.shortLink,
         description: `
-          <url>${similarity.shortLink}</url>
-          <dim>${similarity.description}</dim>
+          <url>${searchResult.shortLink}</url>
+          <dim>${searchResult.description}</dim>
         `,
       };
     });

@@ -1,7 +1,10 @@
 const ChromeLocalStorageWrapper = (): StorageWrapper => {
   return {
     onChanged(keys, callback) {
-      chrome.storage.onChanged.addListener((changes, areaName) => {
+      const handleOnChanged = (
+        changes: { [key: string]: chrome.storage.StorageChange },
+        areaName: chrome.storage.AreaName
+      ) => {
         const isLocalAreaName = areaName === 'local';
         const changedKeys = new Set(Object.keys(changes));
         const keysWithChanges = keys.filter((key) => changedKeys.has(key));
@@ -15,7 +18,12 @@ const ChromeLocalStorageWrapper = (): StorageWrapper => {
           return results;
         }, {} as StorageWrapper.Changes);
         callback(realChanges);
-      });
+      };
+
+      chrome.storage.onChanged.addListener(handleOnChanged);
+      return () => {
+        chrome.storage.onChanged.removeListener(handleOnChanged);
+      };
     },
     set(values) {
       return chrome.storage.local.set(values);

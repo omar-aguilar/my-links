@@ -1,3 +1,3 @@
 export { default } from './Message';
-export { default as SimilaritiesMessage } from './messages/Similarities';
-export { default as AddLinkMessage } from './messages/AddLink';
+export { default as ShortLinkMessage, shortLinkMessageCreators } from './messages/ShortLinks';
+export { default as DomainMessage, domainMessageCreators } from './messages/Domains';

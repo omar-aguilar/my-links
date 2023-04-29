@@ -1,7 +1,6 @@
-import { FunctionComponent } from 'react';
 import RoutesContainer from './components/RoutesContainer';
 
-const App: FunctionComponent = () => {
+const App = () => {
   return <RoutesContainer />;
 };
 

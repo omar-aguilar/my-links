@@ -2,7 +2,7 @@ import { getRedirectURLFromShortLinkEntry } from '../../../utils';
 
 const DomainLinkHandler = (browserAPIs: BrowserAPIs) => {
   const register = (linkHandler: LinkHandler) => {
-    browserAPIs.webNavigation.onBeforeNavigate(
+    const unregister = browserAPIs.webNavigation.onBeforeNavigate(
       async (details) => {
         const { url, tabId } = details;
         const jsURL = new URL(url);
@@ -12,6 +12,7 @@ const DomainLinkHandler = (browserAPIs: BrowserAPIs) => {
       },
       { url: linkHandler.urlFilter }
     );
+    return unregister;
   };
   return { register };
 };

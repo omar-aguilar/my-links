@@ -5,7 +5,7 @@ export type LocationState = {
   backgroundLocation?: Location;
 };
 
-type Routes = 'HOME' | 'LINK_NOT_FOUND';
+type Routes = 'HOME' | 'LINK_NOT_FOUND' | 'UPDATE_LINK' | 'ADD_LINK' | 'DOMAIN_MANAGER';
 type RouteConfig = {
   path: string;
   title?: string;
@@ -20,6 +20,18 @@ export const routes: RoutesConfig = {
   LINK_NOT_FOUND: {
     path: '/link-not-found',
     title: 'Link Not Found',
+  },
+  UPDATE_LINK: {
+    path: '/update-link',
+    title: 'Update Link',
+  },
+  ADD_LINK: {
+    path: '/add-link',
+    title: 'Add Link',
+  },
+  DOMAIN_MANAGER: {
+    path: '/manage-domains',
+    title: 'Manage Domains',
   },
 };
 

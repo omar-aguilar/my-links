@@ -1,15 +1,12 @@
 const Message = (browserAPIs: BrowserAPIs) => {
-  const handlers: MessageHandler[] = [];
+  const handlers: Record<string, MessageHandler> = {};
   browserAPIs.runtime.onMessage((message, sendResponse) => {
-    const handler = handlers.find((currentHandler) => currentHandler.canHandle(message));
-    if (!handler) {
-      return;
-    }
-    handler.handle(message, sendResponse);
+    const handler = handlers[message.action];
+    handler?.(message, sendResponse);
   });
 
-  const register = (messageHandler: MessageHandler) => {
-    handlers.push(messageHandler);
+  const register = (id: string, messageHandler: MessageHandler) => {
+    handlers[id] = messageHandler;
   };
 
   return { register };

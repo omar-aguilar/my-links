@@ -1,13 +1,15 @@
 import { FunctionComponent } from 'react';
 import { Outlet } from 'react-router-dom';
-import styles from './ScreenContainer.scss';
+import Menu from '../Menu/Menu';
 
 const ScreenContainer: FunctionComponent = () => {
-  const sectionClasses = styles.container;
   return (
-    <section className={sectionClasses}>
-      <Outlet />
-    </section>
+    <>
+      <Menu />
+      <section className="flex flex-col grow p-4">
+        <Outlet />
+      </section>
+    </>
   );
 };
 
