@@ -1,36 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App renders home page 1`] = `
-<section
-  class="container"
+<nav
+  class="mb-2 py-3 w-full border"
 >
-  <div>
-    My Links Home
-  </div>
-</section>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/"
+  >
+    Home
+  </a>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/add-link"
+  >
+    Add Link
+  </a>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/manage-domains"
+  >
+    Manage Domains
+  </a>
+</nav>
 `;
 
 exports[`App renders link not found page 1`] = `
-<section
-  class="container"
+<nav
+  class="mb-2 py-3 w-full border"
 >
-  <h1>
-    <span>
-      Link not found 
-    </span>
-    <span
-      class="link"
-    />
-  </h1>
-</section>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/"
+  >
+    Home
+  </a>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/add-link"
+  >
+    Add Link
+  </a>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/manage-domains"
+  >
+    Manage Domains
+  </a>
+</nav>
 `;
 
 exports[`App renders not found page 1`] = `
-<section
-  class="container"
+<nav
+  class="mb-2 py-3 w-full border"
 >
-  <div>
-    Not Found
-  </div>
-</section>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/"
+  >
+    Home
+  </a>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/add-link"
+  >
+    Add Link
+  </a>
+  <a
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    href="/manage-domains"
+  >
+    Manage Domains
+  </a>
+</nav>
 `;

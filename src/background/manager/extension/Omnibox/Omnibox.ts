@@ -21,7 +21,7 @@ const Omnibox = (browserAPIs: BrowserAPIs) => {
     handler: OmniboxWrapper.OmniboxHandler<Event>
   ) => {
     const handlerList = handlers[event];
-    handlerList.push(handler);
+    handlerList.push(handler as never);
   };
 
   init();

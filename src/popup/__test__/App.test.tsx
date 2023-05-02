@@ -1,15 +1,20 @@
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { routes } from '../config/routes';
 import App from '../App';
 
 describe('App', () => {
-  it('renders home page', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    );
+  it('renders home page', async () => {
+    let container: HTMLElement = document.createElement('div');
+    await act(async () => {
+      const component = render(
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      );
+      container = component.container;
+    });
+
     expect(container.firstChild).toMatchSnapshot();
   });
 

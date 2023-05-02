@@ -11,6 +11,6 @@ describe('useDocumentTitle', () => {
   it('renders without exploding', () => {
     const mockTitle = 'test title';
     const root = render(<TestDocumentTitleComponent title={mockTitle} />);
-    expect(root.container.ownerDocument.title).toEqual(mockTitle);
+    expect(root.container.ownerDocument.title).toMatchInlineSnapshot(`"My Links - test title"`);
   });
 });

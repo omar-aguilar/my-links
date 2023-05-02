@@ -55,27 +55,37 @@ export const deleteRegisteredDomain = async (domain: string): Promise<boolean> =
 
 const buildGetDomainInput = () => {
   let mainDomain = '';
+  let inited = false;
 
   const init = async () => {
+    if (inited) {
+      return;
+    }
+    inited = true;
     mainDomain = await getMainDomain();
   };
 
-  const buildGetInput = (input: string) =>
-    input.startsWith(`${mainDomain}/`) ? input : `${mainDomain}/${input}`;
-
-  init();
+  const buildGetInput = (input: string) => {
+    init();
+    return input.startsWith(`${mainDomain}/`) ? input : `${mainDomain}/${input}`;
+  };
 
   return buildGetInput;
 };
 
 const buildGetShortLinkURL = () => {
   let domains: string[] = [];
+  let inited = false;
 
   const getDomains = (domainList: DomainEntry[]) => {
     return domainList.map(({ domain }) => domain);
   };
 
   const init = async () => {
+    if (inited) {
+      return;
+    }
+    inited = true;
     browserAPIs.storage.onChanged([Keys.Domains], (changes) => {
       domains = getDomains(changes[Keys.Domains]);
     });
@@ -84,6 +94,7 @@ const buildGetShortLinkURL = () => {
   };
 
   const getShortLinkURL = (searchTerm: string): string => {
+    init();
     const isShortLinkRe = new RegExp(`^(?:${domains.join('|')})/.`);
     const isValidLink = isShortLinkRe.test(searchTerm);
     if (!isValidLink) {
@@ -91,8 +102,6 @@ const buildGetShortLinkURL = () => {
     }
     return getHTTPSURLString(searchTerm);
   };
-
-  init();
 
   return getShortLinkURL;
 };

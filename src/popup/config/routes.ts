@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Location } from 'history';
+import type { Location } from 'history';
 
 export type LocationState = {
   backgroundLocation?: Location;
