@@ -56,12 +56,23 @@ type MessageCreatorsMap<Handlers extends Record<string, Message.MessageHandlerCo
 type EntryMessageHandler = [string, MessageHandler][];
 type MessageHandler = Message.MessageHandlerConfig['handler'];
 
-interface ShortLinkAPI {
-  resolve: (shortLink: string) => Promise<ShortLinkEntry>;
-  search: (shortLink: string) => Promise<ShortLinkEntry[]>;
-  add: (linkData: ShortLinkEntry) => Promise<boolean>;
-  update: (linkData: ShortLinkEntry) => Promise<boolean>;
-  remove: (shortLink: string) => Promise<boolean>;
+declare namespace ShortLinkAPI {
+  type SearchFilters = {
+    tag?: string;
+  };
+  type Response<T extends ShortLinkEntry | Array<ShortLinkEntry> | undefined = undefined> = {
+    success: boolean;
+  } & (T extends undefined ? { error?: string } : { data: T });
+}
+interface ShortLinkAPI<> {
+  resolve: (shortLink: string) => Promise<ShortLinkAPI.Response<ShortLinkEntry>>;
+  search: (
+    shortLink: string,
+    filters?: ShortLinkAPI.SearchFilters
+  ) => Promise<ShortLinkAPI.Response<ShortLinkEntry[]>>;
+  add: (linkData: ShortLinkEntry) => Promise<ShortLinkAPI.Response>;
+  update: (linkData: ShortLinkEntry) => Promise<ShortLinkAPI.Response>;
+  remove: (shortLink: string) => Promise<ShortLinkAPI.Response>;
 }
 
 type BrowserAPIs = {

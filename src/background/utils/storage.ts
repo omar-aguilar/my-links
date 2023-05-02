@@ -60,7 +60,8 @@ const buildGetDomainInput = () => {
     mainDomain = await getMainDomain();
   };
 
-  const buildGetInput = (input: string) => `${mainDomain}/${input}`;
+  const buildGetInput = (input: string) =>
+    input.startsWith(`${mainDomain}/`) ? input : `${mainDomain}/${input}`;
 
   init();
 

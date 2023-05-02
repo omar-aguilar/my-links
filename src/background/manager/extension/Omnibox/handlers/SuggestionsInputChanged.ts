@@ -8,7 +8,7 @@ const SuggestionsInputChanged = (api: ShortLinkAPI) => {
     suggest
   ) => {
     const domainInput = getDomainInput(input);
-    const searchResults = await api.search(domainInput);
+    const { data: searchResults } = await api.search(domainInput);
     const suggestions = searchResults.map<Suggestion>((searchResult) => {
       return {
         content: searchResult.shortLink,

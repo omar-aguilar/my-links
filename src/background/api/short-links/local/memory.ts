@@ -1,30 +1,35 @@
 import { getEmptyShortLinkEntry, parseRawShortLink } from '../../../utils';
 
 const ShortLinkMemoryDB = () => {
-  // TODO: switch to Record<string, Record<string, ShortLinkEntry>>
-  // each domain will have its own mini db.
-  const db: Record<string, ShortLinkEntry> = {};
+  const db: Record<string, Record<string, ShortLinkEntry>> = {};
 
   const addEntry = (shortLink: string, data: ShortLinkEntry): boolean => {
-    db[shortLink] = data;
+    const { domain, slug } = parseRawShortLink(shortLink);
+    if (!db[domain]) {
+      db[domain] = {};
+    }
+    db[domain][slug] = data;
     return true;
   };
 
   const updateEntry = (shortLink: string, data: ShortLinkEntry): boolean => {
-    if (!db[shortLink]) {
+    const { domain, slug } = parseRawShortLink(shortLink);
+    if (!db[domain]?.[slug]) {
       return addEntry(shortLink, data);
     }
-    db[shortLink] = data;
+    db[domain][slug] = data;
     return true;
   };
 
   const deleteEntry = (shortLink: string): boolean => {
-    delete db[shortLink];
+    const { domain, slug } = parseRawShortLink(shortLink);
+    delete db[domain]?.[slug];
     return true;
   };
 
   const getEntry = (shortLink: string): ShortLinkEntry => {
-    const link = db[shortLink];
+    const { domain, slug } = parseRawShortLink(shortLink);
+    const link = db[domain]?.[slug];
     if (!link) {
       return getEmptyShortLinkEntry(shortLink);
     }
@@ -33,10 +38,13 @@ const ShortLinkMemoryDB = () => {
 
   const search = (shortLink: string): ShortLinkEntry[] => {
     const { domain, slug } = parseRawShortLink(shortLink);
+    if (!db[domain]) {
+      return [];
+    }
     const cleanSlug = slug.replace(/[-_]/g, '');
-    const searchResults = Object.values(db).filter((entry) => {
+    const searchResults = Object.values(db[domain]).filter((entry) => {
       const parsedLink = parseRawShortLink(entry.shortLink);
-      const cleanKey = entry.shortLink.replace(/[-_]/g, '');
+      const cleanKey = parsedLink.slug.replace(/[-_]/g, '');
       return parsedLink.domain === domain && cleanKey.includes(cleanSlug);
     });
     return searchResults;
@@ -56,27 +64,33 @@ const LocalMemoryAPI = (): ShortLinkAPI => {
 
   const resolve: ShortLinkAPI['resolve'] = (shortLink) => {
     const foundLink = db.get(shortLink);
-    return Promise.resolve(foundLink);
+    return Promise.resolve({
+      success: true,
+      data: foundLink,
+    });
   };
 
   const search: ShortLinkAPI['search'] = (shortLink) => {
     const searchResults = db.search(shortLink);
-    return Promise.resolve(searchResults);
+    return Promise.resolve({
+      success: true,
+      data: searchResults,
+    });
   };
 
   const add: ShortLinkAPI['add'] = (linkData) => {
     const isAdded = db.add(linkData.shortLink, linkData);
-    return Promise.resolve(isAdded);
+    return Promise.resolve({ success: isAdded });
   };
 
   const update: ShortLinkAPI['update'] = (linkData) => {
     const isAdded = db.update(linkData.shortLink, linkData);
-    return Promise.resolve(isAdded);
+    return Promise.resolve({ success: isAdded });
   };
 
   const remove: ShortLinkAPI['remove'] = (shortLink) => {
     const isRemoved = db.delete(shortLink);
-    return Promise.resolve(isRemoved);
+    return Promise.resolve({ success: isRemoved });
   };
 
   return {

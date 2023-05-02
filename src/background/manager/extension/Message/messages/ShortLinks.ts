@@ -58,26 +58,26 @@ export const shortLinkMessageCreators: MessageCreatorsMap<ShortLinkHandlersMap> 
 const ShortLinkMessageHandler = (api: ShortLinkAPI): EntryMessageHandler => {
   const handlers: MessageHandlersMap<ShortLinkHandlersMap> = {
     async create(message, sendResponse) {
-      const success = await api.add(message.data);
-      sendResponse({ success });
+      const response = await api.add(message.data);
+      sendResponse(response);
     },
     async get(message, sendResponse) {
-      const shortLinkEntry = await api.resolve(message.data);
+      const { data: shortLinkEntry } = await api.resolve(message.data);
       sendResponse({ shortLinkEntry });
     },
     async update(message, sendResponse) {
-      const success = await api.update(message.data);
-      sendResponse({ success });
+      const response = await api.update(message.data);
+      sendResponse(response);
     },
     async delete(message, sendResponse) {
-      const success = await api.remove(message.data);
-      sendResponse({ success });
+      const response = await api.remove(message.data);
+      sendResponse(response);
     },
     async search(message, sendResponse) {
       if (!message.data.shortLink) {
         return;
       }
-      const shortLinkEntries = await api.search(message.data.shortLink);
+      const { data: shortLinkEntries } = await api.search(message.data.shortLink);
       sendResponse({ shortLinkEntries });
     },
   };

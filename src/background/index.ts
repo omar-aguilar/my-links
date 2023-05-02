@@ -1,5 +1,5 @@
 import csvData from './data/seedDB.csv';
-import LocalMemoryAPI from './api/short-links/local/memory';
+import LocalPouchAPI from './api/short-links/local/pouch';
 import SearchEngineLinkHandler, {
   GoogleSearch,
   BingSearch,
@@ -17,7 +17,7 @@ import getBrowserAPIs from './api/web-extension';
 
 const extensionMainDomain = process.env.DOMAIN as string;
 
-const localAPI = LocalMemoryAPI();
+const localAPI = LocalPouchAPI();
 const browserAPIs = getBrowserAPIs();
 const domainHandler = DomainLinkHandler(browserAPIs);
 const searchEngineHandler = SearchEngineLinkHandler(browserAPIs);

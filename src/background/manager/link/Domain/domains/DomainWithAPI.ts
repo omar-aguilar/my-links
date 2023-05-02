@@ -3,8 +3,8 @@ const DomainWithAPI = (domain: string, api: ShortLinkAPI): LinkHandler => {
     urlFilter: [{ hostEquals: domain }],
     async getLink(url) {
       const shortLink = `${url.hostname}${url.pathname}`;
-      const resolvedLink = await api.resolve(shortLink);
-      return Promise.resolve(resolvedLink);
+      const { data: resolvedLink } = await api.resolve(shortLink);
+      return resolvedLink;
     },
   };
 };

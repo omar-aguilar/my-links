@@ -39,10 +39,10 @@ export const csvLoader = (csv: string) => {
 
 export const loadCSVIntoAPI = (csvData: string, mainDomain: string, api: ShortLinkAPI) => {
   const loadedCSVData = csvLoader(csvData).load();
-  loadedCSVData.forEach((entry) =>
-    api.add({
+  loadedCSVData.forEach(async (entry) => {
+    await api.add({
       ...entry,
       shortLink: `${mainDomain}/${entry.shortLink}`,
-    })
-  );
+    });
+  });
 };
