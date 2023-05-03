@@ -46,3 +46,17 @@ export const loadCSVIntoAPI = (csvData: string, mainDomain: string, api: ShortLi
     });
   });
 };
+
+export const loadCSVFromURL = async (url: string | undefined) => {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const data = await fetch(url);
+    const csv = await data.text();
+    return csv;
+  } catch {
+    return null;
+  }
+};

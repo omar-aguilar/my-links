@@ -12,7 +12,7 @@ import OmniboxManager, {
   SuggestionsInputChanged,
   RedirectInputEntered,
 } from './manager/extension/Omnibox';
-import { loadCSVIntoAPI, onNonMainDomainsUpdated, setMainDomain } from './utils';
+import { loadCSVIntoAPI, onNonMainDomainsUpdated, setMainDomain, loadCSVFromURL } from './utils';
 import getBrowserAPIs from './api/web-extension';
 
 const extensionMainDomain = process.env.DOMAIN as string;
@@ -24,7 +24,11 @@ const searchEngineHandler = SearchEngineLinkHandler(browserAPIs);
 const messageWrapper = MessageManager(browserAPIs);
 const omniboxManager = OmniboxManager(browserAPIs);
 
-loadCSVIntoAPI(csvData, extensionMainDomain, localAPI);
+loadCSVFromURL(process.env.CSV_DB_URL).then((csv) => {
+  const data = csv || csvData;
+  loadCSVIntoAPI(data, extensionMainDomain, localAPI);
+});
+
 setMainDomain(extensionMainDomain);
 
 domainHandler.register(DomainWithAPI(extensionMainDomain, localAPI));

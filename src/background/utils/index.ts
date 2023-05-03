@@ -1,4 +1,4 @@
-export { loadCSVIntoAPI } from './csv';
+export { loadCSVIntoAPI, loadCSVFromURL } from './csv';
 export {
   parseRawShortLink,
   getEmptyShortLinkEntry,
