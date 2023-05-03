@@ -1,3 +1,5 @@
+import { EntryMessageHandler, MessageCreatorsMap, MessageHandlersMap } from '../types';
+
 type SearchLinkFilters = {
   shortLink?: string;
   tags?: string[];

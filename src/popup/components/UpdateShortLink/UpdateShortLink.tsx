@@ -40,7 +40,6 @@ const UpdateShortLink = ({ initShortLink = '', onLinkUpdated }: UpdateShortLinkP
   };
 
   if (!shortLinkEntry) {
-    // TODO: redirect to add?
     return <div>Short Link Not Found</div>;
   }
 

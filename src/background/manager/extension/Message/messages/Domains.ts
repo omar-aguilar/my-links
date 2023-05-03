@@ -4,6 +4,7 @@ import {
   getMainDomain,
   deleteRegisteredDomain,
 } from '../../../../utils';
+import { EntryMessageHandler, MessageCreatorsMap, MessageHandlersMap } from '../types';
 
 type DomainHandlersMap = {
   upsert: Message.MessageHandlerConfig<'Domains.upsert', DomainEntry, { success: boolean }>;

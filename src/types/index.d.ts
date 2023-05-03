@@ -46,14 +46,6 @@ declare namespace Message {
     getMessage: (messageBody: MessageBody) => BaseMessage<Action, MessageBody>;
   };
 }
-// TODO: Move types to /messages/types.d.ts?
-type MessageHandlersMap<Handlers extends Record<string, Message.MessageHandlerConfig>> = {
-  [Key in keyof Handlers]: Handlers[Key]['handler'];
-};
-type MessageCreatorsMap<Handlers extends Record<string, Message.MessageHandlerConfig>> = {
-  [Key in keyof Handlers]: Handlers[Key]['getMessage'];
-};
-type EntryMessageHandler = [string, MessageHandler][];
 type MessageHandler = Message.MessageHandlerConfig['handler'];
 
 declare namespace ShortLinkAPI {
