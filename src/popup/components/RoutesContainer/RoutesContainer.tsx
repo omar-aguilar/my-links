@@ -1,4 +1,3 @@
-import { FunctionComponent } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { routes } from '../../config/routes';
 import ScreenContainer from '../ScreenContainer';
@@ -9,7 +8,7 @@ import UpdateLink from '../../screens/UpdateLink';
 import AddLink from '../../screens/AddLink';
 import DomainManager from '../../screens/DomainManager';
 
-const RoutesContainer: FunctionComponent = () => {
+const RoutesContainer = () => {
   const location = useLocation();
   return (
     <Routes location={location}>

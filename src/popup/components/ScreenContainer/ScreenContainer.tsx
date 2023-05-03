@@ -1,8 +1,7 @@
-import { FunctionComponent } from 'react';
 import { Outlet } from 'react-router-dom';
 import Menu from '../Menu/Menu';
 
-const ScreenContainer: FunctionComponent = () => {
+const ScreenContainer = () => {
   return (
     <>
       <Menu />

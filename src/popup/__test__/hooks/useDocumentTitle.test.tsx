@@ -1,8 +1,7 @@
-import { FunctionComponent } from 'react';
 import { render } from '@testing-library/react';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
-const TestDocumentTitleComponent: FunctionComponent<{ title: string }> = ({ title }) => {
+const TestDocumentTitleComponent = ({ title }: { title: string }) => {
   useDocumentTitle(title);
   return null;
 };

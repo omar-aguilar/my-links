@@ -45,5 +45,31 @@ exports[`Home renders without exploding 1`] = `
       </div>
     </label>
   </div>
+  <div
+    class="mb-2"
+  >
+    <label
+      class="block"
+      for="Search By Tag"
+    >
+      <div
+        class="mr-2 text-base text-slate-700 font-bold"
+      >
+        Search By Tag
+      </div>
+      <div
+        class="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+      >
+        <input
+          autocomplete="off"
+          class="block focus:outline-none flex-1 border-none bg-transparent py-1.5 px-1  text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm"
+          id="Search By Tag"
+          name="Search By Tag"
+          type="text"
+          value=""
+        />
+      </div>
+    </label>
+  </div>
 </div>
 `;
