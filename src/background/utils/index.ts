@@ -2,6 +2,7 @@ export { loadCSVIntoAPI, loadCSVFromURL } from './csv';
 export {
   parseRawShortLink,
   getEmptyShortLinkEntry,
+  getResolverURLFromShortLink,
   getRedirectURLFromShortLinkEntry,
 } from './shortLink';
 export {

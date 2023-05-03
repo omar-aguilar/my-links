@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
 const dotenv = require('dotenv');
 const path = require('path');
@@ -10,6 +11,7 @@ const paths = {
   src: path.join(__dirname, 'src'),
   dist: path.join(__dirname, 'dist'),
   popup: path.join(__dirname, 'src', 'popup'),
+  resolver: path.join(__dirname, 'src', 'resolver'),
   background: path.join(__dirname, 'src', 'background'),
 };
 
@@ -17,6 +19,7 @@ module.exports = {
   entry: {
     background: paths.background,
     popup: paths.popup,
+    resolver: paths.resolver,
   },
   output: {
     path: paths.dist,
@@ -58,7 +61,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
     ],
   },
@@ -95,6 +98,14 @@ module.exports = {
       template: `${paths.popup}/index.html`,
       filename: 'popup.html',
       chunks: ['popup'],
+    }),
+    new HtmlWebpackPlugin({
+      template: `${paths.resolver}/index.html`,
+      filename: 'resolver.html',
+      chunks: ['resolver'],
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
     }),
   ],
 };

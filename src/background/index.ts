@@ -31,9 +31,9 @@ loadCSVFromURL(process.env.CSV_DB_URL).then((csv) => {
 
 setMainDomain(extensionMainDomain);
 
-domainHandler.register(DomainWithAPI(extensionMainDomain, localAPI));
+domainHandler.register(DomainWithAPI(extensionMainDomain));
 onNonMainDomainsUpdated((domains: string[]) =>
-  domains.map((domain) => domainHandler.register(DomainWithAPI(domain, localAPI)))
+  domains.map((domain) => domainHandler.register(DomainWithAPI(domain)))
 );
 
 searchEngineHandler.register(GoogleSearch());

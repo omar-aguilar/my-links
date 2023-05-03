@@ -1,4 +1,4 @@
-import { getRedirectURLFromShortLinkEntry } from '../../../utils';
+import { getResolverURLFromShortLink } from '../../../utils';
 
 const DomainLinkHandler = (browserAPIs: BrowserAPIs) => {
   const register = (linkHandler: LinkHandler) => {
@@ -6,8 +6,8 @@ const DomainLinkHandler = (browserAPIs: BrowserAPIs) => {
       async (details) => {
         const { url, tabId } = details;
         const jsURL = new URL(url);
-        const shortLinkEntry = await linkHandler.getLink(jsURL);
-        const redirectURL = getRedirectURLFromShortLinkEntry(browserAPIs.runtime, shortLinkEntry);
+        const shortLink = linkHandler.getLink(jsURL);
+        const redirectURL = getResolverURLFromShortLink(browserAPIs.runtime, shortLink);
         browserAPIs.tabs.update(tabId, { url: redirectURL });
       },
       { url: linkHandler.urlFilter }

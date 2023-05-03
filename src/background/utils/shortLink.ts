@@ -24,6 +24,11 @@ export const getEmptyShortLinkEntry = (sourceShortLink: string): ShortLinkEntry 
   };
 };
 
+export const getResolverURLFromShortLink = (runtime: RuntimeWrapper, shortLink: string) => {
+  const popupUrl = runtime.getURL('resolver.html');
+  return `${popupUrl}?shortLink=${shortLink}`;
+};
+
 export const getRedirectURLFromShortLinkEntry = (
   runtime: RuntimeWrapper,
   shortLinkEntry: ShortLinkEntry

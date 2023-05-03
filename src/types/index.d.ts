@@ -29,7 +29,7 @@ type SearchHandler = {
 
 type LinkHandler = {
   urlFilter: URLFilter;
-  getLink: (url: URL) => Promise<ShortLinkEntry>;
+  getLink: (url: URL) => string;
 };
 
 declare namespace Message {
