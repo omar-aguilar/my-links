@@ -74,10 +74,12 @@ const ShortLinkMessageHandler = (api: ShortLinkAPI): EntryMessageHandler => {
       sendResponse(response);
     },
     async search(message, sendResponse) {
-      if (!message.data.shortLink) {
+      if (!message.data.shortLink && !message.data.tags?.length) {
         return;
       }
-      const { data: shortLinkEntries } = await api.search(message.data.shortLink);
+      const shortLink = message.data.shortLink || '';
+      const tag = message.data.tags?.[0];
+      const { data: shortLinkEntries } = await api.search(shortLink, { tag });
       sendResponse({ shortLinkEntries });
     },
   };

@@ -23,7 +23,6 @@ const PouchDBAPI = (): ShortLinkAPI => {
           },
         },
       },
-      use_index: 'short-links-tags',
     });
 
     return entries.docs;

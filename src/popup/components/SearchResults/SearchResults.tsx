@@ -6,12 +6,13 @@ import ShortLinkEntry from './ShortLinkEntry';
 type SearchResultsProps = {
   title: string;
   shortLink: string;
+  tag: string;
   showAdmin?: boolean;
 };
 
 const browserAPIs = getBrowserAPIs();
 
-const SearchResults = ({ title, shortLink, showAdmin = false }: SearchResultsProps) => {
+const SearchResults = ({ title, shortLink, tag, showAdmin = false }: SearchResultsProps) => {
   const [searchResults, setSearchResults] = useState<ShortLinkEntry[]>([]);
 
   useEffect(() => {
@@ -21,11 +22,22 @@ const SearchResults = ({ title, shortLink, showAdmin = false }: SearchResultsPro
       );
       setSearchResults(response.shortLinkEntries);
     };
-    if (!shortLink) {
+
+    const getSearchByTagResults = async () => {
+      const response = await browserAPIs.runtime.sendMessage(
+        shortLinkMessageCreators.search({ tags: [tag] })
+      );
+      setSearchResults(response.shortLinkEntries);
+    };
+    if (!shortLink && !tag) {
+      return;
+    }
+    if (tag) {
+      getSearchByTagResults();
       return;
     }
     getSearchResults();
-  }, [shortLink]);
+  }, [shortLink, tag]);
 
   if (searchResults.length === 0) {
     return null;

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import XMarkIcon from '../../icons/XMark';
 import PencilIcon from '../../icons/Pencil';
+import TagList from './TagList';
 import { shortLinkMessageCreators } from '../../../background/manager/extension/Message';
 import getBrowserAPIs from '../../../background/api/web-extension';
 import { getHTTPSURLString } from '../../../background/utils';
@@ -42,6 +43,7 @@ const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
           {shortLink}
         </a>
         {description && <div>{description}</div>}
+        <TagList tags={entry.tags} />
       </div>
       {showAdmin && (
         <div>

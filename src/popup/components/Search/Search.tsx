@@ -17,6 +17,7 @@ const DEBOUNCE_DELAY = 300;
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [searchTagValue, setSearchTagValue] = useState('');
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const triggerSearch = useCallback(
@@ -26,8 +27,22 @@ const Search = () => {
     [setSearchValue]
   );
 
-  const handleOnChange = (newValue: string) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const triggerTagSearch = useCallback(
+    debounce((value: string) => {
+      setSearchTagValue(value);
+    }, DEBOUNCE_DELAY),
+    [setSearchTagValue]
+  );
+
+  const handleOnSearchChange = (newValue: string) => {
+    setSearchTagValue('');
     triggerSearch(newValue);
+  };
+
+  const handleOnTagsChange = (newValue: string) => {
+    setSearchValue('');
+    triggerTagSearch(newValue);
   };
 
   return (
@@ -35,10 +50,11 @@ const Search = () => {
       <TextField
         label="Search"
         value=""
-        onChange={handleOnChange}
+        onChange={handleOnSearchChange}
         Input={TextInputWithDomainSelector}
       />
-      <SearchResults shortLink={searchValue} showAdmin title="Results" />
+      <TextField label="Search By Tag" value="" onChange={handleOnTagsChange} />
+      <SearchResults shortLink={searchValue} tag={searchTagValue} showAdmin title="Results" />
     </>
   );
 };
