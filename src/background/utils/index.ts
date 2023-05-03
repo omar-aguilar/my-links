@@ -12,6 +12,8 @@ export {
   getMainDomain,
   upsertRegisteredDomain,
   deleteRegisteredDomain,
-  registerNonMainDomains,
+  onNonMainDomainsUpdated,
+  setStorageValues,
+  getStorageValues,
 } from './storage';
 export { getHTTPSURLString } from './url';

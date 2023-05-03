@@ -12,7 +12,7 @@ import OmniboxManager, {
   SuggestionsInputChanged,
   RedirectInputEntered,
 } from './manager/extension/Omnibox';
-import { loadCSVIntoAPI, registerNonMainDomains, setMainDomain } from './utils';
+import { loadCSVIntoAPI, onNonMainDomainsUpdated, setMainDomain } from './utils';
 import getBrowserAPIs from './api/web-extension';
 
 const extensionMainDomain = process.env.DOMAIN as string;
@@ -28,7 +28,7 @@ loadCSVIntoAPI(csvData, extensionMainDomain, localAPI);
 setMainDomain(extensionMainDomain);
 
 domainHandler.register(DomainWithAPI(extensionMainDomain, localAPI));
-registerNonMainDomains((domains: string[]) =>
+onNonMainDomainsUpdated((domains: string[]) =>
   domains.map((domain) => domainHandler.register(DomainWithAPI(domain, localAPI)))
 );
 

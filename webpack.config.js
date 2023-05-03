@@ -88,6 +88,7 @@ module.exports = {
     new DefinePlugin({
       'process.env': {
         DOMAIN: JSON.stringify(process.env.DOMAIN || ''),
+        CSV_DB_URL: JSON.stringify(process.env.CSV_DB_URL || ''),
       },
     }),
     new HtmlWebpackPlugin({

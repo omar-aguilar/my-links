@@ -5,10 +5,13 @@ export type LocationState = {
 };
 
 type Routes = 'HOME' | 'LINK_NOT_FOUND' | 'UPDATE_LINK' | 'ADD_LINK' | 'DOMAIN_MANAGER';
+
 type RouteConfig = {
   path: string;
-  title?: string;
+  title: string;
+  hideInMenu?: boolean;
 };
+
 export type RoutesConfig = Record<Routes, RouteConfig>;
 
 export const routes: RoutesConfig = {
@@ -19,10 +22,12 @@ export const routes: RoutesConfig = {
   LINK_NOT_FOUND: {
     path: '/link-not-found',
     title: 'Link Not Found',
+    hideInMenu: true,
   },
   UPDATE_LINK: {
     path: '/update-link',
     title: 'Update Link',
+    hideInMenu: true,
   },
   ADD_LINK: {
     path: '/add-link',

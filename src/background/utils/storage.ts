@@ -4,6 +4,16 @@ import { getHTTPSURLString } from './url';
 
 const browserAPIs = getBrowserAPIs();
 
+type StorageValues = Record<string, any>;
+
+export const setStorageValues = (values: StorageValues) => {
+  return browserAPIs.storage.set(values);
+};
+
+export const getStorageValues = async (keys: string[]): Promise<StorageValues> => {
+  return browserAPIs.storage.get(keys);
+};
+
 export const getMainDomain = async (): Promise<string> => {
   const values = await browserAPIs.storage.get([Keys.MainDomain]);
   return values[Keys.MainDomain] || '';
@@ -112,7 +122,7 @@ export const setMainDomain = async (mainDomain: string) => {
   setRegisteredDomains(newDomains);
 };
 
-export const registerNonMainDomains = (
+export const onNonMainDomainsUpdated = (
   callback: (domains: string[]) => BrowserAPIUnregisterFn[]
 ) => {
   let unregisterFns: BrowserAPIUnregisterFn[] = [];
