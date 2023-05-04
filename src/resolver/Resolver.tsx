@@ -21,7 +21,11 @@ const App = () => {
       );
       const { shortLinkEntry } = response;
       const redirectURL = getRedirectURLFromShortLinkEntry(browserAPIs.runtime, shortLinkEntry);
-      window.location.replace(redirectURL);
+      browserAPIs.tabs.updateCurrent({ url: redirectURL });
+      // hack to close the popup
+      setTimeout(() => {
+        window.close();
+      }, 1000);
     };
     const searchParams = new URLSearchParams(window.location.search);
     const shortLink = searchParams.get('shortLink');

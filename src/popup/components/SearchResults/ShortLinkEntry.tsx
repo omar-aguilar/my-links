@@ -4,7 +4,7 @@ import PencilIcon from '../../icons/Pencil';
 import TagList from './TagList';
 import { shortLinkMessageCreators } from '../../../background/manager/extension/Message';
 import getBrowserAPIs from '../../../background/api/web-extension';
-import { getHTTPSURLString } from '../../../background/utils';
+import { getResolverURLFromShortLink } from '../../../background/utils';
 
 type ShortLinkEntryProps = {
   entry: ShortLinkEntry;
@@ -37,7 +37,7 @@ const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
       <div className="flex justify-center flex-col grow">
         <a
           className="text-violet-500 text-sm font-bold"
-          href={getHTTPSURLString(shortLink)}
+          href={getResolverURLFromShortLink(browserAPIs.runtime, shortLink)}
           data-tooltip-target="tooltip-default"
         >
           {shortLink}
