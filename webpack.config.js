@@ -15,6 +15,19 @@ const paths = {
   background: path.join(__dirname, 'src', 'background'),
 };
 
+// firefox extension manifest doesn't support background.service_worker
+const getFirefoxManifestOverrides = () => {
+  if (process.env.BROWSER !== 'firefox') {
+    return {};
+  }
+
+  return {
+    background: {
+      scripts: ['background.js'],
+    },
+  };
+};
+
 module.exports = {
   entry: {
     background: paths.background,
@@ -82,6 +95,7 @@ module.exports = {
               },
               version: process.env.npm_package_version,
               description: process.env.npm_package_description,
+              ...getFirefoxManifestOverrides(),
             };
             return JSON.stringify(manifest, null, 2);
           },

@@ -1,27 +1,24 @@
-import ChromeOmniboxWrapper from './chrome/Omnibox';
-import ChromeRuntimeWrapper from './chrome/Runtime';
-import ChromeLocalStorageWrapper from './chrome/Storage';
-import ChromeTabsWrapper from './chrome/Tabs';
-import ChromeWebNavigationWrapper from './chrome/WebNavigation';
+import ChromeAPIs from './chrome';
+import BrowserAPIs from './browser';
+import { BrowserAPIsSingleton } from './types';
 
-const ChromeAPIs = (() => {
-  let chromeAPIs: BrowserAPIs | null = null;
-
-  const getInstance = (): BrowserAPIs => {
-    if (chromeAPIs === null) {
-      chromeAPIs = {
-        storage: ChromeLocalStorageWrapper(),
-        webNavigation: ChromeWebNavigationWrapper(),
-        runtime: ChromeRuntimeWrapper(),
-        tabs: ChromeTabsWrapper(),
-        omnibox: ChromeOmniboxWrapper(),
-      };
-    }
-    return chromeAPIs;
+const SingletonBrowserAPI = ((): BrowserAPIsSingleton => {
+  let instance: BrowserAPIs;
+  return {
+    getInstance: () => {
+      if (!instance) {
+        instance =
+          typeof globalThis.browser !== 'undefined'
+            ? BrowserAPIs.getInstance()
+            : ChromeAPIs.getInstance();
+      }
+      return instance;
+    },
   };
-  return { getInstance };
 })();
 
-const getBrowserAPIs = (): BrowserAPIs => ChromeAPIs.getInstance();
+const getBrowserAPIs = (): BrowserAPIs => {
+  return SingletonBrowserAPI.getInstance();
+};
 
 export default getBrowserAPIs;
