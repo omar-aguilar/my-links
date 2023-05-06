@@ -1,2 +1,2 @@
 export { default } from './DomainLinkHandler';
-export { default as DomainWithAPI } from './domains/DomainWithAPI';
+export { default as SimpleDomain } from './domains/SimpleDomain';

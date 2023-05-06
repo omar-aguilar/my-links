@@ -1,10 +1,9 @@
-import { getDomainInput, getRedirectURLFromShortLinkEntry } from '../../../../utils';
+import { getDomainInput, getResolverURLFromShortLink } from '../../../../utils';
 
-const RedirectInputEntered = (browserAPIs: BrowserAPIs, api: ShortLinkAPI) => {
+const RedirectInputEntered = (browserAPIs: BrowserAPIs) => {
   const inputEntered: OmniboxWrapper.OnInputEnteredCallback = async (input: string) => {
     const domainInput = getDomainInput(input);
-    const { data: shortLinkEntry } = await api.resolve(domainInput);
-    const redirectURL = getRedirectURLFromShortLinkEntry(browserAPIs.runtime, shortLinkEntry);
+    const redirectURL = getResolverURLFromShortLink(browserAPIs.runtime, domainInput);
     browserAPIs.tabs.updateCurrent({ url: redirectURL });
   };
 

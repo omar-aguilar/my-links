@@ -1,3 +1,4 @@
+import { getResolverURLFromShortLink } from '../../../utils';
 import SearchEngineHandlerEnhancer from './SearchEngineHandlerEnhancer';
 
 const SearchEngineLinkHandler = (browserAPIs: BrowserAPIs) => {
@@ -11,7 +12,8 @@ const SearchEngineLinkHandler = (browserAPIs: BrowserAPIs) => {
         if (!link) {
           return;
         }
-        browserAPIs.tabs.update(tabId, { url: link });
+        const redirectURL = getResolverURLFromShortLink(browserAPIs.runtime, link);
+        browserAPIs.tabs.update(tabId, { url: redirectURL });
       },
       { url: enhancedLinkHandler.urlFilter }
     );

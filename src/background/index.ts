@@ -6,7 +6,8 @@ import SearchEngineLinkHandler, {
   YahooSearch,
   DuckDuckGoSearch,
 } from './manager/link/SearchEngine';
-import DomainLinkHandler, { DomainWithAPI } from './manager/link/Domain';
+import DomainLinkHandler, { SimpleDomain } from './manager/link/Domain';
+import APIHandler from './manager/api/APIHandler';
 import MessageManager, { ShortLinkMessage, DomainMessage } from './manager/extension/Message';
 import OmniboxManager, {
   SuggestionsInputChanged,
@@ -23,17 +24,23 @@ const domainHandler = DomainLinkHandler(browserAPIs);
 const searchEngineHandler = SearchEngineLinkHandler(browserAPIs);
 const messageWrapper = MessageManager(browserAPIs);
 const omniboxManager = OmniboxManager(browserAPIs);
+const apiHandler = APIHandler();
+
+setMainDomain(extensionMainDomain);
 
 loadCSVFromURL(process.env.CSV_DB_URL).then((csv) => {
   const data = csv || csvData;
   loadCSVIntoAPI(data, extensionMainDomain, localAPI);
 });
 
-setMainDomain(extensionMainDomain);
-
-domainHandler.register(DomainWithAPI(extensionMainDomain));
+apiHandler.register(extensionMainDomain, localAPI);
 onNonMainDomainsUpdated((domains: string[]) =>
-  domains.map((domain) => domainHandler.register(DomainWithAPI(domain)))
+  domains.map((domain) => apiHandler.register(domain, localAPI))
+);
+
+domainHandler.register(SimpleDomain(extensionMainDomain));
+onNonMainDomainsUpdated((domains: string[]) =>
+  domains.map((domain) => domainHandler.register(SimpleDomain(domain)))
 );
 
 searchEngineHandler.register(GoogleSearch());
@@ -42,8 +49,8 @@ searchEngineHandler.register(YahooSearch());
 searchEngineHandler.register(DuckDuckGoSearch());
 searchEngineHandler.register(BingSearch());
 
-ShortLinkMessage(localAPI).forEach(([id, handler]) => messageWrapper.register(id, handler));
+ShortLinkMessage(apiHandler.api).forEach(([id, handler]) => messageWrapper.register(id, handler));
 DomainMessage().forEach(([id, handler]) => messageWrapper.register(id, handler));
 
 omniboxManager.register('inputChanged', SuggestionsInputChanged(localAPI));
-omniboxManager.register('inputEntered', RedirectInputEntered(browserAPIs, localAPI));
+omniboxManager.register('inputEntered', RedirectInputEntered(browserAPIs));

@@ -1,6 +1,5 @@
 import getBrowserAPIs from '../api/web-extension';
 import Keys from '../api/web-extension/storageKeys';
-import { getHTTPSURLString } from './url';
 
 const browserAPIs = getBrowserAPIs();
 
@@ -100,7 +99,7 @@ const buildGetShortLinkURL = () => {
     if (!isValidLink) {
       return '';
     }
-    return getHTTPSURLString(searchTerm);
+    return searchTerm;
   };
 
   init();

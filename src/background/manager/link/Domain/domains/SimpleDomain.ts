@@ -1,4 +1,4 @@
-const DomainWithAPI = (domain: string): LinkHandler => {
+const SimpleDomain = (domain: string): LinkHandler => {
   return {
     urlFilter: [{ hostEquals: domain }],
     getLink(url) {
@@ -8,4 +8,4 @@ const DomainWithAPI = (domain: string): LinkHandler => {
   };
 };
 
-export default DomainWithAPI;
+export default SimpleDomain;

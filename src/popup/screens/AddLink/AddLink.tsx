@@ -1,12 +1,19 @@
 import AddShortLink from '../../components/AddShortLink';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import { getHTTPSURLString } from '../../../background/utils';
+import getBrowserAPIs from '../../../background/api/web-extension';
+
+const browserAPIs = getBrowserAPIs();
 
 const AddLink = () => {
   useDocumentTitle('Add New Link');
 
   const redirect = (shortLinkEntry: ShortLinkEntry) => {
-    window.location.replace(getHTTPSURLString(shortLinkEntry.shortLink));
+    browserAPIs.tabs.updateCurrent({ url: getHTTPSURLString(shortLinkEntry.shortLink) });
+    // hack to close the popup
+    setTimeout(() => {
+      window.close();
+    }, 1000);
   };
 
   return (
