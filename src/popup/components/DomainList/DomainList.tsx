@@ -17,7 +17,7 @@ const DomainList = ({ onEdit, onDelete, onDownload }: DomainListProps) => {
   const [registeredDomains, setRegisteredDomains] = useState<DomainEntry[]>([]);
 
   useEffect(() => {
-    const onChanged = (changes: any) => {
+    const onChanged = (changes: StorageWrapper.Changes) => {
       const domains: DomainEntry[] = changes[Keys.Domains];
       setRegisteredDomains(domains);
     };

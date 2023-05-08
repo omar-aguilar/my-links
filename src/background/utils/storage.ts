@@ -3,13 +3,11 @@ import Keys from '../api/web-extension/storageKeys';
 
 const browserAPIs = getBrowserAPIs();
 
-type StorageValues = Record<string, any>;
-
-export const setStorageValues = (values: StorageValues) => {
+export const setStorageValues = (values: StorageWrapper.Changes) => {
   return browserAPIs.storage.set(values);
 };
 
-export const getStorageValues = async (keys: string[]): Promise<StorageValues> => {
+export const getStorageValues = async (keys: string[]): Promise<StorageWrapper.Changes> => {
   return browserAPIs.storage.get(keys);
 };
 

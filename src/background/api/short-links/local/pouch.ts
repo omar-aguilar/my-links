@@ -1,11 +1,10 @@
-/* eslint-disable no-underscore-dangle */
 import PouchDB from 'pouchdb-browser';
 import PouchFindPlugin from 'pouchdb-find';
 import { getEmptyShortLinkEntry, parseRawShortLink } from '../../../utils';
 
 PouchDB.plugin(PouchFindPlugin);
 const db = new PouchDB<ShortLinkEntry>('short-links');
-(globalThis as any).db = db;
+
 db.createIndex({
   index: {
     fields: ['$domain', 'tags'],

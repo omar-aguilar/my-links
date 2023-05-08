@@ -1,22 +1,10 @@
 import { useCallback, useState } from 'react';
-// import { TextInputWithDomainSelector } from '../TextField';
 import SearchResults from '../SearchResults';
 import TextField from '../TextField/TextField';
 import DomainDropdown from '../DomainDropdown';
-
-const debounce = (fn: any, delay: number) => {
-  let timerId: any;
-  return (...args: any) => {
-    clearTimeout(timerId);
-    timerId = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
+import debounce from './debounce';
 
 const DEBOUNCE_DELAY = 300;
-
-// TODO create a selector for domain
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState('');
