@@ -3,6 +3,7 @@ import DomainList from '../DomainList/DomainList';
 import DomainForm from '../DomainForm/DomainForm';
 import getBrowserAPIs from '../../../background/api/web-extension';
 import { domainMessageCreators } from '../../../background/manager/extension/Message';
+import proxy from '../Notification/proxy';
 
 const browserAPIs = getBrowserAPIs();
 
@@ -10,11 +11,12 @@ const ManageDomains = () => {
   const [currentDomainEntry, setCurrentDomainEntry] = useState<DomainEntry | undefined>();
 
   const onAddDomain = async (domainEntry: DomainEntry) => {
-    const response = await browserAPIs.runtime.sendMessage(
-      domainMessageCreators.upsert(domainEntry)
-    );
+    await browserAPIs.runtime.sendMessage(domainMessageCreators.upsert(domainEntry));
     setCurrentDomainEntry(undefined);
-    console.log({ response });
+    proxy.setNotification({
+      type: 'success',
+      message: `Domain ${domainEntry.domain} successfully added`,
+    });
   };
 
   const onEditDomain = async (domainEntry: DomainEntry) => {
@@ -22,12 +24,15 @@ const ManageDomains = () => {
   };
 
   const onDeleteDomain = async (domain: string) => {
-    const response = await browserAPIs.runtime.sendMessage(domainMessageCreators.delete(domain));
-    console.log({ response });
+    await browserAPIs.runtime.sendMessage(domainMessageCreators.delete(domain));
+    proxy.setNotification({
+      type: 'success',
+      message: `Domain ${domain} successfully deleted`,
+    });
   };
 
   const onDownload = (domain: string) => {
-    console.log('TBI', { domain });
+    console.debug('TBI', { domain });
   };
 
   return (

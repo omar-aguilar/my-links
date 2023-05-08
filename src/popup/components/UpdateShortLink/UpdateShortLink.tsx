@@ -5,7 +5,7 @@ import ShortLinkForm from '../ShortLinkForm';
 
 type UpdateShortLinkProps = {
   initShortLink: string;
-  onLinkUpdated: (shortLinksEntry: ShortLinkEntry) => void;
+  onLinkUpdated?: (shortLinksEntry: ShortLinkEntry) => void;
 };
 
 const browserAPIs = getBrowserAPIs();
@@ -36,7 +36,7 @@ const UpdateShortLink = ({ initShortLink = '', onLinkUpdated }: UpdateShortLinkP
       setError(response.error);
       return;
     }
-    onLinkUpdated(updatedShortLinkEntry);
+    onLinkUpdated?.(updatedShortLinkEntry);
   };
 
   if (!shortLinkEntry) {

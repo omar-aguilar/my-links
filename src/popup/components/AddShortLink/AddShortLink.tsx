@@ -5,7 +5,7 @@ import ShortLinkForm from '../ShortLinkForm';
 
 type AddShortLinkProps = {
   initShortLink: string;
-  onLinkAdded: (shortLinksEntry: ShortLinkEntry) => void;
+  onLinkAdded?: (shortLinksEntry: ShortLinkEntry) => void;
 };
 
 const browserAPIs = getBrowserAPIs();
@@ -21,7 +21,7 @@ const AddShortLink = ({ initShortLink = '', onLinkAdded }: AddShortLinkProps) =>
       setError(response.error);
       return;
     }
-    onLinkAdded(shortLinkEntry);
+    onLinkAdded?.(shortLinkEntry);
   };
 
   return (

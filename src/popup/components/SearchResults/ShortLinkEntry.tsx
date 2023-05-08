@@ -5,6 +5,7 @@ import TagList from './TagList';
 import { shortLinkMessageCreators } from '../../../background/manager/extension/Message';
 import getBrowserAPIs from '../../../background/api/web-extension';
 import { getResolverURLFromShortLink } from '../../../background/utils';
+import proxy from '../Notification/proxy';
 
 type ShortLinkEntryProps = {
   entry: ShortLinkEntry;
@@ -29,7 +30,18 @@ const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
     const response = await browserAPIs.runtime.sendMessage(
       shortLinkMessageCreators.delete(shortLink)
     );
-    console.log({ response });
+
+    if (response.success) {
+      proxy.setNotification({
+        type: 'success',
+        message: `Short link ${shortLink} successfully deleted`,
+      });
+    } else {
+      proxy.setNotification({
+        type: 'error',
+        message: `Short link ${shortLink} not deleted ${response.error}`,
+      });
+    }
   };
 
   return (
