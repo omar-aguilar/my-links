@@ -1,55 +1,68 @@
 /* eslint-disable no-underscore-dangle */
 import PouchDB from 'pouchdb-browser';
 import PouchFindPlugin from 'pouchdb-find';
-import { getEmptyShortLinkEntry } from '../../../utils';
+import { getEmptyShortLinkEntry, parseRawShortLink } from '../../../utils';
 
 PouchDB.plugin(PouchFindPlugin);
 const db = new PouchDB<ShortLinkEntry>('short-links');
 (globalThis as any).db = db;
 db.createIndex({
   index: {
-    fields: ['tags'],
+    fields: ['$domain', 'tags'],
     name: 'short-links-tags',
   },
 });
 
 const PouchDBAPI = (): ShortLinkAPI => {
-  const searchByTags = async (tag: string): Promise<ShortLinkEntry[]> => {
+  const searchByTags = async (domain: string, tag: string): Promise<ShortLinkEntry[]> => {
     const entries = await db.find({
       selector: {
-        tags: {
-          $elemMatch: {
-            $eq: tag,
+        $and: [
+          {
+            tags: {
+              $elemMatch: {
+                $eq: tag,
+              },
+            },
           },
-        },
+          {
+            $domain: {
+              $eq: domain,
+            },
+          },
+        ],
       },
     });
-
     return entries.docs;
   };
 
-  const searchByLinks = async (link: string): Promise<ShortLinkEntry[]> => {
+  const searchByLinks = async (domain: string, link: string): Promise<ShortLinkEntry[]> => {
+    const searchLink = `${domain}/${link}`;
     const entries = await db.allDocs<ShortLinkEntry>({
       include_docs: true,
-      startkey: link,
-      endkey: `${link}\ufff0`,
+      startkey: searchLink,
+      endkey: `${searchLink}\ufff0`,
+      limit: 25,
     });
     return entries.rows.map((row) => row.doc as ShortLinkEntry);
   };
 
-  const search: ShortLinkAPI['search'] = async (shortLink, filters) => {
-    if (filters?.tag) {
-      const data = await searchByTags(filters.tag);
+  const search: ShortLinkAPI['search'] = async (domain, filters) => {
+    const { shortLink = '', tags } = filters || {};
+    if (tags?.length) {
+      const data = await searchByTags(domain, tags[0]);
       return { success: true, data };
     }
-    const data = await searchByLinks(shortLink);
+    const data = await searchByLinks(domain, shortLink);
     return { success: true, data };
   };
 
   const add: ShortLinkAPI['add'] = async (linkData) => {
+    const { domain } = parseRawShortLink(linkData.shortLink);
     try {
       await db.put({
         _id: linkData.shortLink,
+        $domain: domain,
         ...linkData,
       });
       return {

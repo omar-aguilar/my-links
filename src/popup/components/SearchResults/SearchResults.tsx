@@ -7,37 +7,36 @@ type SearchResultsProps = {
   title: string;
   shortLink: string;
   tag: string;
+  domain: string;
   showAdmin?: boolean;
 };
 
 const browserAPIs = getBrowserAPIs();
 
-const SearchResults = ({ title, shortLink, tag, showAdmin = false }: SearchResultsProps) => {
+const SearchResults = ({
+  title,
+  shortLink,
+  tag,
+  domain,
+  showAdmin = false,
+}: SearchResultsProps) => {
   const [searchResults, setSearchResults] = useState<ShortLinkEntry[]>([]);
 
   useEffect(() => {
     const getSearchResults = async () => {
+      const tags = tag ? [tag] : [];
       const response = await browserAPIs.runtime.sendMessage(
-        shortLinkMessageCreators.search({ shortLink })
+        shortLinkMessageCreators.search({ domain, shortLink, tags })
       );
       setSearchResults(response.shortLinkEntries);
     };
 
-    const getSearchByTagResults = async () => {
-      const response = await browserAPIs.runtime.sendMessage(
-        shortLinkMessageCreators.search({ tags: [tag] })
-      );
-      setSearchResults(response.shortLinkEntries);
-    };
-    if (!shortLink && !tag) {
+    if (!domain) {
       return;
     }
-    if (tag) {
-      getSearchByTagResults();
-      return;
-    }
+
     getSearchResults();
-  }, [shortLink, tag]);
+  }, [shortLink, tag, domain]);
 
   if (searchResults.length === 0) {
     return null;

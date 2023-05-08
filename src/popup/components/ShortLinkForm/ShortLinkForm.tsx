@@ -21,6 +21,11 @@ const ShortLinkForm = ({
   const [link, setLink] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
+  const [error, setError] = useState(false);
+
+  const handleError = (hasError: boolean) => {
+    setError(hasError);
+  };
 
   useEffect(() => {
     const isSameShortLink = defaultValues?.shortLink === initShortLink;
@@ -46,8 +51,18 @@ const ShortLinkForm = ({
           onChange={(value) => setShortLink(value)}
           readOnly={Boolean(initShortLink)}
           Input={initShortLink ? BaseTextInput : TextInputWithDomainSelector}
+          validate={(value) => /^[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+$/.test(value)}
+          errorMessage='Short link should only include letters, numbers, and "-"'
+          onError={handleError}
         />
-        <TextField label="Destination" value={link} onChange={(value) => setLink(value)} />
+        <TextField
+          label="Destination"
+          value={link}
+          onChange={(value) => setLink(value)}
+          validate={(value) => /^https:\/\/.+$/.test(value)}
+          errorMessage='Destination should start with "https://"'
+          onError={handleError}
+        />
       </div>
       <TextField
         label="Description"
@@ -61,8 +76,9 @@ const ShortLinkForm = ({
       <button
         type="button"
         className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border
-    border-gray-400 rounded shadow text-base"
+    border-gray-400 rounded shadow text-base disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={() => onAction({ shortLink, link, description, tags })}
+        disabled={error}
       >
         {buttonLabel}
       </button>

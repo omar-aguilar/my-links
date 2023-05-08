@@ -50,7 +50,8 @@ type MessageHandler = Message.MessageHandlerConfig['handler'];
 
 declare namespace ShortLinkAPI {
   type SearchFilters = {
-    tag?: string;
+    shortLink?: string;
+    tags?: string[];
   };
   type Response<T extends ShortLinkEntry | Array<ShortLinkEntry> | undefined = undefined> = {
     success: boolean;
@@ -59,7 +60,7 @@ declare namespace ShortLinkAPI {
 interface ShortLinkAPI<> {
   resolve: (shortLink: string) => Promise<ShortLinkAPI.Response<ShortLinkEntry>>;
   search: (
-    shortLink: string,
+    domain: string,
     filters?: ShortLinkAPI.SearchFilters
   ) => Promise<ShortLinkAPI.Response<ShortLinkEntry[]>>;
   add: (linkData: ShortLinkEntry) => Promise<ShortLinkAPI.Response>;

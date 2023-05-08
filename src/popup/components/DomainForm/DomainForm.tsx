@@ -34,7 +34,7 @@ const DomainForm = ({ title, buttonLabel, onAction, defaultValues }: DomainFormP
       <button
         type="button"
         className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border
-    border-gray-400 rounded shadow text-base"
+    border-gray-400 rounded shadow text-base disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={() => onAction({ domain, description })}
       >
         {buttonLabel}

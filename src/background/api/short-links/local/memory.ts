@@ -70,7 +70,8 @@ const LocalMemoryAPI = (): ShortLinkAPI => {
     });
   };
 
-  const search: ShortLinkAPI['search'] = (shortLink) => {
+  const search: ShortLinkAPI['search'] = (domain, filters) => {
+    const shortLink = `${domain}/${filters?.shortLink}`;
     const searchResults = db.search(shortLink);
     return Promise.resolve({
       success: true,

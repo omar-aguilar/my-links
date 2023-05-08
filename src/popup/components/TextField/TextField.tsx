@@ -1,4 +1,4 @@
-import { ComponentType, useEffect, useState } from 'react';
+import { ComponentType, useCallback, useEffect, useState } from 'react';
 import BaseTextInput, { InputProps } from './BaseTextInput';
 
 type TextFieldProps = {
@@ -7,7 +7,12 @@ type TextFieldProps = {
   onChange: (value: string) => void;
   readOnly?: boolean;
   Input?: ComponentType<InputProps>;
+  validate?: (value: string) => boolean;
+  errorMessage?: string;
+  onError?: (errorValue: boolean) => void;
 };
+
+const defaultValidate = () => true;
 
 const TextField = ({
   label,
@@ -15,14 +20,30 @@ const TextField = ({
   readOnly = false,
   onChange,
   Input = BaseTextInput,
+  validate = defaultValidate,
+  errorMessage,
+  onError,
 }: TextFieldProps) => {
+  const [error, setError] = useState<boolean>(false);
   const [currentValue, setCurrentValue] = useState(value);
 
+  const handleError = useCallback(
+    (hasError: boolean) => {
+      setError(hasError);
+      onError?.(hasError);
+    },
+    [onError]
+  );
+
   useEffect(() => {
+    const isValid = validate(value);
+    handleError(!isValid);
     setCurrentValue(value);
-  }, [value]);
+  }, [value, handleError, validate]);
 
   const handleChange = (newValue: string) => {
+    const isValid = validate(newValue);
+    handleError(!isValid);
     setCurrentValue(newValue);
     onChange(newValue);
   };
@@ -37,6 +58,7 @@ const TextField = ({
         >
           <Input name={label} value={currentValue} onChange={handleChange} readOnly={readOnly} />
         </div>
+        {error && <div className="text-red-500 text-sm">{errorMessage || 'Error'}</div>}
       </label>
     </div>
   );

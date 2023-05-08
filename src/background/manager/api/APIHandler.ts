@@ -26,8 +26,7 @@ const APIHandler = () => {
     return domain;
   };
 
-  const getAPIForDomainFromShortLink = (shortLink: string) => {
-    const domain = getDomainFromShortLink(shortLink);
+  const getAPIFromDomain = (domain: string) => {
     const api = handlers.get(domain);
     if (!api) {
       return notRegisteredAPI;
@@ -35,14 +34,19 @@ const APIHandler = () => {
     return api;
   };
 
+  const getAPIForDomainFromShortLink = (shortLink: string) => {
+    const domain = getDomainFromShortLink(shortLink);
+    return getAPIFromDomain(domain);
+  };
+
   const apiWrapper: ShortLinkAPI = {
     async resolve(shortLink: string) {
       const api = getAPIForDomainFromShortLink(shortLink);
       return api.resolve(shortLink);
     },
-    async search(shortLink, filters) {
-      const api = getAPIForDomainFromShortLink(shortLink);
-      return api.search(shortLink, filters);
+    async search(domain, filters) {
+      const api = getAPIFromDomain(domain);
+      return api.search(domain, filters);
     },
     async add(linkData) {
       const api = getAPIForDomainFromShortLink(linkData.shortLink);

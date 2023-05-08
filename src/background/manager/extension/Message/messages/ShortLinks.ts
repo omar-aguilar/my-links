@@ -1,6 +1,7 @@
 import { EntryMessageHandler, MessageCreatorsMap, MessageHandlersMap } from '../types';
 
 type SearchLinkFilters = {
+  domain: string;
   shortLink?: string;
   tags?: string[];
   revision?: number;
@@ -76,12 +77,8 @@ const ShortLinkMessageHandler = (api: ShortLinkAPI): EntryMessageHandler => {
       sendResponse(response);
     },
     async search(message, sendResponse) {
-      if (!message.data.shortLink && !message.data.tags?.length) {
-        return;
-      }
-      const shortLink = message.data.shortLink || '';
-      const tag = message.data.tags?.[0];
-      const { data: shortLinkEntries } = await api.search(shortLink, { tag });
+      const { shortLink, tags, domain } = message.data;
+      const { data: shortLinkEntries } = await api.search(domain, { shortLink, tags });
       sendResponse({ shortLinkEntries });
     },
   };

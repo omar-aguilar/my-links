@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { shortLinkMessageCreators } from '../../../background/manager/extension/Message';
 import getBrowserAPIs from '../../../background/api/web-extension';
-import ShortLinkForm from '../ShortLinkForm/ShortLinkForm';
+import ShortLinkForm from '../ShortLinkForm';
 
 type AddShortLinkProps = {
   initShortLink: string;
