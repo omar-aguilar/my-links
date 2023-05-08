@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import SearchResults from '../SearchResults';
 import TextField from '../TextField/TextField';
 import DomainDropdown from '../DomainDropdown';
-import debounce from './debounce';
+import debounce from '../../utils/debounce';
 
 const DEBOUNCE_DELAY = 300;
 

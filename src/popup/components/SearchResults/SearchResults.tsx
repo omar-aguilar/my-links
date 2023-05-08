@@ -31,7 +31,8 @@ const SearchResults = ({
       setSearchResults(response.shortLinkEntries);
     };
 
-    if (!domain) {
+    const hasTagOrShortLink = tag || shortLink;
+    if (!domain || !hasTagOrShortLink) {
       return;
     }
 

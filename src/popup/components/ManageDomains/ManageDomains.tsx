@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import DomainList from '../DomainList/DomainList';
-import DomainForm from '../DomainForm/DomainForm';
+import getCSVFromEntries from '../../utils/getCSVFromEntries';
+import DomainList from '../DomainList';
+import DomainForm from '../DomainForm';
 import getBrowserAPIs from '../../../background/api/web-extension';
-import { domainMessageCreators } from '../../../background/manager/extension/Message';
+import {
+  domainMessageCreators,
+  shortLinkMessageCreators,
+} from '../../../background/manager/extension/Message';
 import proxy from '../Notification/proxy';
 
 const browserAPIs = getBrowserAPIs();
@@ -31,8 +35,20 @@ const ManageDomains = () => {
     });
   };
 
-  const onDownload = (domain: string) => {
-    console.debug('TBI', { domain });
+  const onDownload = async (domain: string) => {
+    const results = await browserAPIs.runtime.sendMessage(
+      shortLinkMessageCreators.search({ domain })
+    );
+    const csv = getCSVFromEntries(results.shortLinkEntries);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${domain}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (

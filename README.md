@@ -7,7 +7,7 @@ The intention of this project is to enable users to be able to register some sho
 Some differences on the go links implementation is that this doesn't require any modifications to the `/etc/hosts` file, logic for redirect and fetching real links is handled by the extension.
 
 ## Build and install extension
-Currently the extension should work on `Chrome` based browsers like: `Chrome`, `Edge` or `Brave`, as well as on `Firefox` (firefox needs a specific build step)
+Currently the extension should work on `Chrome` based browsers like: `Chrome`, `Edge` or `Brave`, as well as `Firefox` (firefox needs a specific build step)
 
 ### Build
 #### Chrome Based Browsers

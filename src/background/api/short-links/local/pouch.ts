@@ -41,7 +41,6 @@ const PouchDBAPI = (): ShortLinkAPI => {
       include_docs: true,
       startkey: searchLink,
       endkey: `${searchLink}\ufff0`,
-      limit: 25,
     });
     return entries.rows.map((row) => row.doc as ShortLinkEntry);
   };
