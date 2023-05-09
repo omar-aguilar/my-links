@@ -1,5 +1,6 @@
 import csvData from './data/seedDB.csv';
 import LocalPouchAPI from './api/short-links/local/pouch';
+import StorageDomainAPI from './api/domains/local/storage';
 import SearchEngineLinkHandler, {
   GoogleSearch,
   BingSearch,
@@ -19,7 +20,8 @@ import getBrowserAPIs from '../shared/web-extension';
 
 const extensionMainDomain = process.env.DOMAIN as string;
 
-const localAPI = LocalPouchAPI();
+const shortLinksAPI = LocalPouchAPI();
+const domainsAPI = StorageDomainAPI();
 const browserAPIs = getBrowserAPIs();
 const domainHandler = DomainLinkHandler(browserAPIs);
 const searchEngineHandler = SearchEngineLinkHandler(browserAPIs);
@@ -31,12 +33,12 @@ setMainDomain(extensionMainDomain);
 
 loadCSVFromURL(process.env.CSV_DB_URL).then((csv) => {
   const data = csv || csvData;
-  loadCSVIntoAPI(data, extensionMainDomain, localAPI);
+  loadCSVIntoAPI(data, extensionMainDomain, shortLinksAPI);
 });
 
-apiHandler.register(extensionMainDomain, localAPI);
+apiHandler.register(extensionMainDomain, shortLinksAPI);
 onNonMainDomainsUpdated((domains: string[]) =>
-  domains.map((domain) => apiHandler.register(domain, localAPI))
+  domains.map((domain) => apiHandler.register(domain, shortLinksAPI))
 );
 
 domainHandler.register(SimpleDomain(extensionMainDomain));
@@ -51,7 +53,7 @@ searchEngineHandler.register(DuckDuckGoSearch());
 searchEngineHandler.register(BingSearch());
 
 ShortLinkMessage(apiHandler.api).forEach(([id, handler]) => messageWrapper.register(id, handler));
-DomainMessage().forEach(([id, handler]) => messageWrapper.register(id, handler));
+DomainMessage(domainsAPI).forEach(([id, handler]) => messageWrapper.register(id, handler));
 
-omniboxManager.register('inputChanged', SuggestionsInputChanged(localAPI));
+omniboxManager.register('inputChanged', SuggestionsInputChanged(shortLinksAPI));
 omniboxManager.register('inputEntered', RedirectInputEntered(browserAPIs));

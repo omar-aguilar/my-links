@@ -1,20 +1,26 @@
 import { useEffect, useState } from 'react';
-import { parseRawShortLink, getRegisteredDomains } from '../../../background/utils';
+import { parseRawShortLink } from '../../../background/utils';
 import BaseTextInput, { InputProps } from './BaseTextInput';
+import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
+import { domainMessageCreators } from '../../../shared/messages';
 
 const TextInputWithDomainSelector = ({ name, value, onChange }: InputProps) => {
+  const browserAPIs = useBrowserAPIs();
   const shortLink = parseRawShortLink(value);
   const [domains, setDomains] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState(shortLink.domain);
 
   useEffect(() => {
     const getDomains = async () => {
-      const registeredDomains = await getRegisteredDomains();
+      const response = await browserAPIs.runtime.sendMessage(
+        domainMessageCreators.search({ prefix: '' })
+      );
+      const registeredDomains: DomainEntry[] = response.domainEntries;
       setDomains(registeredDomains.map(({ domain }) => domain));
       setSelectedDomain(registeredDomains[0].domain);
     };
     getDomains();
-  }, []);
+  }, [browserAPIs]);
 
   return (
     <div

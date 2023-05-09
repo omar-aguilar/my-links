@@ -57,7 +57,7 @@ declare namespace ShortLinkAPI {
     success: boolean;
   } & (T extends undefined ? { error?: string } : { data: T });
 }
-interface ShortLinkAPI<> {
+interface ShortLinkAPI {
   resolve: (shortLink: string) => Promise<ShortLinkAPI.Response<ShortLinkEntry>>;
   search: (
     domain: string,
@@ -66,6 +66,21 @@ interface ShortLinkAPI<> {
   add: (linkData: ShortLinkEntry) => Promise<ShortLinkAPI.Response>;
   update: (linkData: ShortLinkEntry) => Promise<ShortLinkAPI.Response>;
   remove: (shortLink: string) => Promise<ShortLinkAPI.Response>;
+}
+
+declare namespace DomainsAPI {
+  type SearchFilters = {
+    prefix?: string;
+  };
+  type Response<T extends DomainEntry | undefined = undefined> = {
+    success: boolean;
+  } & (T extends undefined ? { error?: string } : { data: T });
+}
+interface DomainsAPI {
+  getMainDomain: () => Promise<DomainsAPI.Response<string>>;
+  upsert: (domainEntry: DomainEntry) => Promise<DomainsAPI.Response>;
+  search: (filters?: DomainsAPI.SearchFilters) => Promise<DomainsAPI.Response<DomainsEntry[]>>;
+  remove: (domain: string) => Promise<DomainsAPI.Response>;
 }
 
 type BrowserAPIs = {

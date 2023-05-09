@@ -1,10 +1,8 @@
-import {
-  upsertRegisteredDomain,
-  getRegisteredDomains,
-  getMainDomain,
-  deleteRegisteredDomain,
-} from '../../background/utils';
 import { EntryMessageHandler, MessageCreatorsMap, MessageHandlersMap } from './types';
+
+type DomainFilters = {
+  prefix?: string;
+};
 
 type DomainHandlersMap = {
   upsert: Message.MessageHandlerConfig<'Domains.upsert', DomainEntry, { success: boolean }>;
@@ -17,11 +15,17 @@ type DomainHandlersMap = {
     }
   >;
   delete: Message.MessageHandlerConfig<'Domains.delete', string, { success: boolean }>;
+  search: Message.MessageHandlerConfig<
+    'Domains.search',
+    DomainFilters,
+    { domainEntries: DomainEntry[] }
+  >;
 };
 
 const upsertMessageId = 'Domains.upsert';
 const getMessageId = 'Domains.get';
 const deleteMessageId = 'Domains.delete';
+const searchMessageId = 'Domains.search';
 
 export const domainMessageCreators: MessageCreatorsMap<DomainHandlersMap> = {
   upsert(domainEntry) {
@@ -42,22 +46,32 @@ export const domainMessageCreators: MessageCreatorsMap<DomainHandlersMap> = {
       data: domain,
     };
   },
+  search(domain) {
+    return {
+      action: searchMessageId,
+      data: domain,
+    };
+  },
 };
 
-const DomainMessageHandler = (): EntryMessageHandler => {
+const DomainMessageHandler = (api: DomainsAPI): EntryMessageHandler => {
   const handlers: MessageHandlersMap<DomainHandlersMap> = {
     async upsert(message, sendResponse) {
-      upsertRegisteredDomain(message.data);
-      sendResponse({ success: true });
+      const { success } = await api.upsert(message.data);
+      sendResponse({ success });
     },
     async get(_message, sendResponse) {
-      const mainDomain = await getMainDomain();
-      const registeredDomains = await getRegisteredDomains();
+      const { data: mainDomain } = await api.getMainDomain();
+      const { data: registeredDomains } = await api.search();
       sendResponse({ mainDomain, registeredDomains });
     },
     async delete(message, sendResponse) {
-      deleteRegisteredDomain(message.data);
-      sendResponse({ success: true });
+      const { success } = await api.remove(message.data);
+      sendResponse({ success });
+    },
+    async search(message, sendResponse) {
+      const { data: domainEntries } = await api.search(message.data);
+      sendResponse({ domainEntries });
     },
   };
 
@@ -65,6 +79,7 @@ const DomainMessageHandler = (): EntryMessageHandler => {
     [upsertMessageId, handlers.upsert],
     [getMessageId, handlers.get],
     [deleteMessageId, handlers.delete],
+    [searchMessageId, handlers.search],
   ];
 };
 

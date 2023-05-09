@@ -3,7 +3,7 @@ import XMarkIcon from '../../icons/XMark';
 import PencilIcon from '../../icons/Pencil';
 import TagList from './TagList';
 import { shortLinkMessageCreators } from '../../../shared/messages';
-import getBrowserAPIs from '../../../shared/web-extension';
+import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
 import { getResolverURLFromShortLink } from '../../../background/utils';
 import proxy from '../Notification/proxy';
 
@@ -12,9 +12,8 @@ type ShortLinkEntryProps = {
   showAdmin: boolean;
 };
 
-const browserAPIs = getBrowserAPIs();
-
 const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
+  const browserAPIs = useBrowserAPIs();
   const navigate = useNavigate();
   const { shortLink, description } = entry;
   const redirectToAddLink = () => {

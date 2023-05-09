@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { shortLinkMessageCreators } from '../shared/messages';
-import { getRedirectURLFromShortLinkEntry } from '../background/utils';
-import getBrowserAPIs from '../shared/web-extension';
-import Spinner from './Spinner';
-
-const browserAPIs = getBrowserAPIs();
+import { shortLinkMessageCreators } from '../../shared/messages';
+import { getRedirectURLFromShortLinkEntry } from '../../background/utils';
+import Spinner from '../Spinner';
+import useBrowserAPIs from '../../pages/common/MainContext/useBrowserAPIs';
 
 enum State {
   Loading,
@@ -12,6 +10,7 @@ enum State {
 }
 
 const App = () => {
+  const browserAPIs = useBrowserAPIs();
   const [state, setState] = useState<State>(State.Loading);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ const App = () => {
       return;
     }
     resolveLink(shortLink);
-  }, []);
+  }, [browserAPIs.tabs, browserAPIs.runtime]);
 
   return (
     <div className="flex grow items-center justify-center">

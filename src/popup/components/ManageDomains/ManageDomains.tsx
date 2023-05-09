@@ -2,13 +2,12 @@ import { useState } from 'react';
 import getCSVFromEntries from '../../utils/getCSVFromEntries';
 import DomainList from '../DomainList';
 import DomainForm from '../DomainForm';
-import getBrowserAPIs from '../../../shared/web-extension';
+import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
 import { domainMessageCreators, shortLinkMessageCreators } from '../../../shared/messages';
 import proxy from '../Notification/proxy';
 
-const browserAPIs = getBrowserAPIs();
-
 const ManageDomains = () => {
+  const browserAPIs = useBrowserAPIs();
   const [currentDomainEntry, setCurrentDomainEntry] = useState<DomainEntry | undefined>();
 
   const onAddDomain = async (domainEntry: DomainEntry) => {

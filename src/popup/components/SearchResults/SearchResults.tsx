@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { shortLinkMessageCreators } from '../../../shared/messages';
-import getBrowserAPIs from '../../../shared/web-extension';
+import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
 import ShortLinkEntry from './ShortLinkEntry';
 
 type SearchResultsProps = {
@@ -11,8 +11,6 @@ type SearchResultsProps = {
   showAdmin?: boolean;
 };
 
-const browserAPIs = getBrowserAPIs();
-
 const SearchResults = ({
   title,
   shortLink,
@@ -20,6 +18,7 @@ const SearchResults = ({
   domain,
   showAdmin = false,
 }: SearchResultsProps) => {
+  const browserAPIs = useBrowserAPIs();
   const [searchResults, setSearchResults] = useState<ShortLinkEntry[]>([]);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const SearchResults = ({
     }
 
     getSearchResults();
-  }, [shortLink, tag, domain]);
+  }, [shortLink, tag, domain, browserAPIs]);
 
   if (searchResults.length === 0) {
     return null;

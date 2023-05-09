@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react';
-import { getRegisteredDomains } from '../../../background/utils';
+import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
+import { domainMessageCreators } from '../../../shared/messages';
 
 type DomainDropdownProps = {
   onChange: (domain: string) => void;
 };
 
 const DomainDropdown = ({ onChange }: DomainDropdownProps) => {
+  const browserAPIs = useBrowserAPIs();
   const [domains, setDomains] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState('');
 
   useEffect(() => {
     const getDomains = async () => {
-      const registeredDomains = await getRegisteredDomains();
+      const response = await browserAPIs.runtime.sendMessage(
+        domainMessageCreators.search({ prefix: '' })
+      );
+      const registeredDomains: DomainEntry[] = response.domainEntries;
       setDomains(['', ...registeredDomains.map(({ domain }) => domain)]);
     };
     getDomains();
-  }, []);
+  }, [browserAPIs]);
 
   return (
     <div className="mb-2">

@@ -1,10 +1,10 @@
 import MainContext from '../pages/common/MainContext/MainContext';
-import RoutesContainer from './components/RoutesContainer';
+import Resolver from './components/Resolver';
 
 const App = () => {
   return (
     <MainContext>
-      <RoutesContainer />
+      <Resolver />
     </MainContext>
   );
 };

@@ -1,16 +1,15 @@
 import { useState } from 'react';
 import { shortLinkMessageCreators } from '../../../shared/messages';
-import getBrowserAPIs from '../../../shared/web-extension';
 import ShortLinkForm from '../ShortLinkForm';
+import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
 
 type AddShortLinkProps = {
   initShortLink: string;
   onLinkAdded?: (shortLinksEntry: ShortLinkEntry) => void;
 };
 
-const browserAPIs = getBrowserAPIs();
-
 const AddShortLink = ({ initShortLink = '', onLinkAdded }: AddShortLinkProps) => {
+  const browserAPIs = useBrowserAPIs();
   const [error, setError] = useState('');
 
   const addLink = async (shortLinkEntry: ShortLinkEntry) => {

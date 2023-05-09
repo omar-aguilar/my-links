@@ -1,11 +1,10 @@
 import AddShortLink from '../../components/AddShortLink';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import { getHTTPSURLString } from '../../../background/utils';
-import getBrowserAPIs from '../../../shared/web-extension';
-
-const browserAPIs = getBrowserAPIs();
+import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
 
 const AddLink = () => {
+  const browserAPIs = useBrowserAPIs();
   useDocumentTitle('Add New Link');
 
   const redirect = (shortLinkEntry: ShortLinkEntry) => {
