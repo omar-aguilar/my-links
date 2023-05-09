@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { shortLinkMessageCreators } from '../background/manager/extension/Message';
+import { shortLinkMessageCreators } from '../shared/messages';
 import { getRedirectURLFromShortLinkEntry } from '../background/utils';
 import getBrowserAPIs from '../background/api/web-extension';
 import Spinner from './Spinner';

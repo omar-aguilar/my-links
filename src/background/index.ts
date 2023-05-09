@@ -8,7 +8,8 @@ import SearchEngineLinkHandler, {
 } from './manager/link/SearchEngine';
 import DomainLinkHandler, { SimpleDomain } from './manager/link/Domain';
 import APIHandler from './manager/api/APIHandler';
-import MessageManager, { ShortLinkMessage, DomainMessage } from './manager/extension/Message';
+import MessageManager from './manager/extension/Message';
+import { ShortLinkMessage, DomainMessage } from '../shared/messages';
 import OmniboxManager, {
   SuggestionsInputChanged,
   RedirectInputEntered,

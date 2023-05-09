@@ -3,10 +3,7 @@ import getCSVFromEntries from '../../utils/getCSVFromEntries';
 import DomainList from '../DomainList';
 import DomainForm from '../DomainForm';
 import getBrowserAPIs from '../../../background/api/web-extension';
-import {
-  domainMessageCreators,
-  shortLinkMessageCreators,
-} from '../../../background/manager/extension/Message';
+import { domainMessageCreators, shortLinkMessageCreators } from '../../../shared/messages';
 import proxy from '../Notification/proxy';
 
 const browserAPIs = getBrowserAPIs();

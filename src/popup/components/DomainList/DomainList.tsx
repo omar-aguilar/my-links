@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import getBrowserAPIs from '../../../background/api/web-extension';
-import { domainMessageCreators } from '../../../background/manager/extension/Message';
+import { domainMessageCreators } from '../../../shared/messages';
 import Keys from '../../../background/api/web-extension/storageKeys';
 import Domain from '../Domain';
 

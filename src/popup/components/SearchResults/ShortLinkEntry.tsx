@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import XMarkIcon from '../../icons/XMark';
 import PencilIcon from '../../icons/Pencil';
 import TagList from './TagList';
-import { shortLinkMessageCreators } from '../../../background/manager/extension/Message';
+import { shortLinkMessageCreators } from '../../../shared/messages';
 import getBrowserAPIs from '../../../background/api/web-extension';
 import { getResolverURLFromShortLink } from '../../../background/utils';
 import proxy from '../Notification/proxy';

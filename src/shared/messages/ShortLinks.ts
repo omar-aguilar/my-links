@@ -1,4 +1,4 @@
-import { EntryMessageHandler, MessageCreatorsMap, MessageHandlersMap } from '../types';
+import { EntryMessageHandler, MessageCreatorsMap, MessageHandlersMap } from './types';
 
 type SearchLinkFilters = {
   domain: string;

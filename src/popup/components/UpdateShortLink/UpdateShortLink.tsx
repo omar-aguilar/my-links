@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { shortLinkMessageCreators } from '../../../background/manager/extension/Message';
+import { shortLinkMessageCreators } from '../../../shared/messages';
 import getBrowserAPIs from '../../../background/api/web-extension';
 import ShortLinkForm from '../ShortLinkForm';
 
