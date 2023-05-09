@@ -2,7 +2,7 @@ import { useState } from 'react';
 import getCSVFromEntries from '../../utils/getCSVFromEntries';
 import DomainList from '../DomainList';
 import DomainForm from '../DomainForm';
-import getBrowserAPIs from '../../../background/api/web-extension';
+import getBrowserAPIs from '../../../shared/web-extension';
 import { domainMessageCreators, shortLinkMessageCreators } from '../../../shared/messages';
 import proxy from '../Notification/proxy';
 

@@ -15,7 +15,7 @@ import OmniboxManager, {
   RedirectInputEntered,
 } from './manager/extension/Omnibox';
 import { loadCSVIntoAPI, onNonMainDomainsUpdated, setMainDomain, loadCSVFromURL } from './utils';
-import getBrowserAPIs from './api/web-extension';
+import getBrowserAPIs from '../shared/web-extension';
 
 const extensionMainDomain = process.env.DOMAIN as string;
 

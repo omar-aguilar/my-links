@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { shortLinkMessageCreators } from '../shared/messages';
 import { getRedirectURLFromShortLinkEntry } from '../background/utils';
-import getBrowserAPIs from '../background/api/web-extension';
+import getBrowserAPIs from '../shared/web-extension';
 import Spinner from './Spinner';
 
 const browserAPIs = getBrowserAPIs();

@@ -3,7 +3,7 @@ import XMarkIcon from '../../icons/XMark';
 import PencilIcon from '../../icons/Pencil';
 import TagList from './TagList';
 import { shortLinkMessageCreators } from '../../../shared/messages';
-import getBrowserAPIs from '../../../background/api/web-extension';
+import getBrowserAPIs from '../../../shared/web-extension';
 import { getResolverURLFromShortLink } from '../../../background/utils';
 import proxy from '../Notification/proxy';
 

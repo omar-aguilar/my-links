@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { shortLinkMessageCreators } from '../../../shared/messages';
-import getBrowserAPIs from '../../../background/api/web-extension';
+import getBrowserAPIs from '../../../shared/web-extension';
 import ShortLinkEntry from './ShortLinkEntry';
 
 type SearchResultsProps = {

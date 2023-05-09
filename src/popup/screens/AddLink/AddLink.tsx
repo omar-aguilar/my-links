@@ -1,7 +1,7 @@
 import AddShortLink from '../../components/AddShortLink';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import { getHTTPSURLString } from '../../../background/utils';
-import getBrowserAPIs from '../../../background/api/web-extension';
+import getBrowserAPIs from '../../../shared/web-extension';
 
 const browserAPIs = getBrowserAPIs();
 

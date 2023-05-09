@@ -1,5 +1,5 @@
-import getBrowserAPIs from '../api/web-extension';
-import Keys from '../api/web-extension/storageKeys';
+import getBrowserAPIs from '../../shared/web-extension';
+import Keys from '../../shared/web-extension/storageKeys';
 
 const browserAPIs = getBrowserAPIs();
 
