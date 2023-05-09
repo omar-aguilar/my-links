@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin } = require('webpack');
 const dotenv = require('dotenv');
 const path = require('path');
+const MergeEntryFilesPlugin = require('./webpack/MergeEntryFilesPlugin');
 
 dotenv.config();
 
@@ -38,6 +39,12 @@ module.exports = {
     path: paths.dist,
     filename: '[name].js',
     clean: true,
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   devtool: 'source-map',
   module: {
@@ -120,6 +127,9 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'styles.css',
+    }),
+    new MergeEntryFilesPlugin({
+      entries: ['background'],
     }),
   ],
 };

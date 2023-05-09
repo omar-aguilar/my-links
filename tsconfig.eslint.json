@@ -3,6 +3,7 @@
   "include": [
     "src",
     "types",
+    "webpack",
     "*.js",
     ".eslintrc.js"
   ]

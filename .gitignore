@@ -5,3 +5,4 @@ coverage
 db.csv
 .playground
 TODO.md
+src/background/data/seedDB.csv
