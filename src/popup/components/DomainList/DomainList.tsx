@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { domainMessageCreators } from '../../../shared/messages';
-import Keys from '../../../shared/web-extension/storageKeys';
 import Domain from '../Domain';
 import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 
@@ -11,18 +10,14 @@ type DomainListProps = {
 };
 
 const DomainList = ({ onEdit, onDelete, onDownload }: DomainListProps) => {
-  const { browserAPIs, sendMessage } = useBrowserAPIs();
+  const { storageListener, sendMessage } = useBrowserAPIs();
   const [mainDomain, setMainDomain] = useState('');
   const [registeredDomains, setRegisteredDomains] = useState<DomainEntry[]>([]);
 
   useEffect(() => {
-    const onChanged = (changes: StorageWrapper.Changes) => {
-      const domains: DomainEntry[] = changes[Keys.Domains];
-      setRegisteredDomains(domains);
-    };
-    const unregister = browserAPIs.storage.onChanged([Keys.Domains], onChanged);
+    const unregister = storageListener.onDomainsChanged(setRegisteredDomains);
     return unregister;
-  }, [browserAPIs]);
+  }, [storageListener]);
 
   useEffect(() => {
     const getDomains = async () => {
