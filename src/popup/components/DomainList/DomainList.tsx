@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { domainMessageCreators } from '../../../shared/messages';
 import Keys from '../../../shared/web-extension/storageKeys';
 import Domain from '../Domain';
-import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
+import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 
 type DomainListProps = {
   onEdit: (domain: DomainEntry) => void;
@@ -11,7 +11,7 @@ type DomainListProps = {
 };
 
 const DomainList = ({ onEdit, onDelete, onDownload }: DomainListProps) => {
-  const { browserAPIs } = useBrowserAPIs();
+  const { browserAPIs, sendMessage } = useBrowserAPIs();
   const [mainDomain, setMainDomain] = useState('');
   const [registeredDomains, setRegisteredDomains] = useState<DomainEntry[]>([]);
 
@@ -26,12 +26,12 @@ const DomainList = ({ onEdit, onDelete, onDownload }: DomainListProps) => {
 
   useEffect(() => {
     const getDomains = async () => {
-      const response = await browserAPIs.runtime.sendMessage(domainMessageCreators.get(undefined));
+      const response = await sendMessage(domainMessageCreators.get(undefined));
       setMainDomain(response.mainDomain);
       setRegisteredDomains(response.registeredDomains);
     };
     getDomains();
-  }, [browserAPIs]);
+  }, [sendMessage]);
 
   return (
     <div>

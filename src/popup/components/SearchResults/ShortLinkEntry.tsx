@@ -3,7 +3,7 @@ import XMarkIcon from '../../icons/XMark';
 import PencilIcon from '../../icons/Pencil';
 import TagList from './TagList';
 import { shortLinkMessageCreators } from '../../../shared/messages';
-import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
+import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 import getHTTPSURLString from '../../../shared/utils/getHTTPSURLString';
 import proxy from '../Notification/proxy';
 
@@ -13,7 +13,7 @@ type ShortLinkEntryProps = {
 };
 
 const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
-  const { browserAPIs } = useBrowserAPIs();
+  const { sendMessage } = useBrowserAPIs();
   const navigate = useNavigate();
   const { shortLink, description } = entry;
   const redirectToAddLink = () => {
@@ -26,9 +26,7 @@ const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
     if (!proceed) {
       return;
     }
-    const response = await browserAPIs.runtime.sendMessage(
-      shortLinkMessageCreators.delete(shortLink)
-    );
+    const response = await sendMessage(shortLinkMessageCreators.delete(shortLink));
 
     if (response.success) {
       proxy.setNotification({

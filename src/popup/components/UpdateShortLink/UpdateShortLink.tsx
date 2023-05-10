@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { shortLinkMessageCreators } from '../../../shared/messages';
-import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
+import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 import ShortLinkForm from '../ShortLinkForm';
 
 type UpdateShortLinkProps = {
@@ -9,13 +9,13 @@ type UpdateShortLinkProps = {
 };
 
 const UpdateShortLink = ({ initShortLink = '', onLinkUpdated }: UpdateShortLinkProps) => {
-  const { browserAPIs } = useBrowserAPIs();
+  const { sendMessage } = useBrowserAPIs();
   const [shortLinkEntry, setShortLinkEntry] = useState<ShortLinkEntry | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const getShortLinkEntry = async () => {
-      const { shortLinkEntry: foundShortLinkEntry } = await browserAPIs.runtime.sendMessage(
+      const { shortLinkEntry: foundShortLinkEntry } = await sendMessage(
         shortLinkMessageCreators.get(initShortLink)
       );
 
@@ -25,12 +25,10 @@ const UpdateShortLink = ({ initShortLink = '', onLinkUpdated }: UpdateShortLinkP
       setShortLinkEntry(foundShortLinkEntry);
     };
     getShortLinkEntry();
-  }, [initShortLink, browserAPIs]);
+  }, [initShortLink, sendMessage]);
 
   const updateLink = async (updatedShortLinkEntry: ShortLinkEntry) => {
-    const response = await browserAPIs.runtime.sendMessage(
-      shortLinkMessageCreators.update(updatedShortLinkEntry)
-    );
+    const response = await sendMessage(shortLinkMessageCreators.update(updatedShortLinkEntry));
     if (response.error) {
       setError(response.error);
       return;

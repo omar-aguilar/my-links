@@ -2,16 +2,16 @@ import { useState } from 'react';
 import getCSVFromEntries from '../../utils/getCSVFromEntries';
 import DomainList from '../DomainList';
 import DomainForm from '../DomainForm';
-import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
+import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 import { domainMessageCreators, shortLinkMessageCreators } from '../../../shared/messages';
 import proxy from '../Notification/proxy';
 
 const ManageDomains = () => {
-  const { browserAPIs } = useBrowserAPIs();
+  const { sendMessage } = useBrowserAPIs();
   const [currentDomainEntry, setCurrentDomainEntry] = useState<DomainEntry | undefined>();
 
   const onAddDomain = async (domainEntry: DomainEntry) => {
-    await browserAPIs.runtime.sendMessage(domainMessageCreators.upsert(domainEntry));
+    await sendMessage(domainMessageCreators.upsert(domainEntry));
     setCurrentDomainEntry(undefined);
     proxy.setNotification({
       type: 'success',
@@ -24,7 +24,7 @@ const ManageDomains = () => {
   };
 
   const onDeleteDomain = async (domain: string) => {
-    await browserAPIs.runtime.sendMessage(domainMessageCreators.delete(domain));
+    await sendMessage(domainMessageCreators.delete(domain));
     proxy.setNotification({
       type: 'success',
       message: `Domain ${domain} successfully deleted`,
@@ -32,9 +32,7 @@ const ManageDomains = () => {
   };
 
   const onDownload = async (domain: string) => {
-    const results = await browserAPIs.runtime.sendMessage(
-      shortLinkMessageCreators.search({ domain })
-    );
+    const results = await sendMessage(shortLinkMessageCreators.search({ domain }));
     const csv = getCSVFromEntries(results.shortLinkEntries);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);

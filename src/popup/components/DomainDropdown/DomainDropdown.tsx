@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
+import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 import { domainMessageCreators } from '../../../shared/messages';
 
 type DomainDropdownProps = {
@@ -7,20 +7,18 @@ type DomainDropdownProps = {
 };
 
 const DomainDropdown = ({ onChange }: DomainDropdownProps) => {
-  const { browserAPIs } = useBrowserAPIs();
+  const { sendMessage } = useBrowserAPIs();
   const [domains, setDomains] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState('');
 
   useEffect(() => {
     const getDomains = async () => {
-      const response = await browserAPIs.runtime.sendMessage(
-        domainMessageCreators.search({ prefix: '' })
-      );
+      const response = await sendMessage(domainMessageCreators.search({ prefix: '' }));
       const registeredDomains: DomainEntry[] = response.domainEntries;
       setDomains(['', ...registeredDomains.map(({ domain }) => domain)]);
     };
     getDomains();
-  }, [browserAPIs]);
+  }, [sendMessage]);
 
   return (
     <div className="mb-2">

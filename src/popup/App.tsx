@@ -1,4 +1,4 @@
-import MainContext from '../pages/common/MainContext/MainContext';
+import MainContext from '../pages/shared/MainContext/MainContext';
 import RoutesContainer from './components/RoutesContainer';
 
 const App = () => {
