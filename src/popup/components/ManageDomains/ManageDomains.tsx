@@ -7,7 +7,7 @@ import { domainMessageCreators, shortLinkMessageCreators } from '../../../shared
 import proxy from '../Notification/proxy';
 
 const ManageDomains = () => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const [currentDomainEntry, setCurrentDomainEntry] = useState<DomainEntry | undefined>();
 
   const onAddDomain = async (domainEntry: DomainEntry) => {

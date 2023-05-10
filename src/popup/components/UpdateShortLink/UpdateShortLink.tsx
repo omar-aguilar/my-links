@@ -9,7 +9,7 @@ type UpdateShortLinkProps = {
 };
 
 const UpdateShortLink = ({ initShortLink = '', onLinkUpdated }: UpdateShortLinkProps) => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const [shortLinkEntry, setShortLinkEntry] = useState<ShortLinkEntry | null>(null);
   const [error, setError] = useState('');
 

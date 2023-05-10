@@ -5,7 +5,7 @@ import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
 import { domainMessageCreators } from '../../../shared/messages';
 
 const TextInputWithDomainSelector = ({ name, value, onChange }: InputProps) => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const shortLink = parseRawShortLink(value);
   const [domains, setDomains] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState(shortLink.domain);

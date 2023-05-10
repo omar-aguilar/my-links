@@ -11,7 +11,7 @@ type DomainListProps = {
 };
 
 const DomainList = ({ onEdit, onDelete, onDownload }: DomainListProps) => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const [mainDomain, setMainDomain] = useState('');
   const [registeredDomains, setRegisteredDomains] = useState<DomainEntry[]>([]);
 

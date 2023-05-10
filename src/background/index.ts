@@ -17,14 +17,16 @@ import OmniboxManager, {
 } from './manager/extension/Omnibox';
 import { loadCSVIntoAPI, onNonMainDomainsUpdated, setMainDomain, loadCSVFromURL } from './utils';
 import getBrowserAPIs from '../shared/web-extension';
+import { extensionRedirect } from '../shared/utils';
 
 const extensionMainDomain = process.env.DOMAIN as string;
 
-const shortLinksAPI = LocalPouchAPI();
-const domainsAPI = StorageDomainAPI();
 const browserAPIs = getBrowserAPIs();
-const domainHandler = DomainLinkHandler(browserAPIs);
-const searchEngineHandler = SearchEngineLinkHandler(browserAPIs);
+const redirect = extensionRedirect(browserAPIs);
+const shortLinksAPI = LocalPouchAPI();
+const domainsAPI = StorageDomainAPI(browserAPIs);
+const domainHandler = DomainLinkHandler(browserAPIs, redirect);
+const searchEngineHandler = SearchEngineLinkHandler(browserAPIs, redirect);
 const messageWrapper = MessageManager(browserAPIs);
 const omniboxManager = OmniboxManager(browserAPIs);
 const apiHandler = APIHandler();
@@ -55,5 +57,5 @@ searchEngineHandler.register(BingSearch());
 ShortLinkMessage(apiHandler.api).forEach(([id, handler]) => messageWrapper.register(id, handler));
 DomainMessage(domainsAPI).forEach(([id, handler]) => messageWrapper.register(id, handler));
 
-omniboxManager.register('inputChanged', SuggestionsInputChanged(shortLinksAPI));
-omniboxManager.register('inputEntered', RedirectInputEntered(browserAPIs));
+omniboxManager.register('inputChanged', SuggestionsInputChanged(shortLinksAPI, domainsAPI));
+omniboxManager.register('inputEntered', RedirectInputEntered(redirect, domainsAPI));

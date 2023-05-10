@@ -3,77 +3,18 @@ import Keys from '../../shared/web-extension/storageKeys';
 
 const browserAPIs = getBrowserAPIs();
 
-export const setStorageValues = (values: StorageWrapper.Changes) => {
-  return browserAPIs.storage.set(values);
-};
-
-export const getStorageValues = async (keys: string[]): Promise<StorageWrapper.Changes> => {
-  return browserAPIs.storage.get(keys);
-};
-
-export const getMainDomain = async (): Promise<string> => {
+const getMainDomain = async (): Promise<string> => {
   const values = await browserAPIs.storage.get([Keys.MainDomain]);
   return values[Keys.MainDomain] || '';
 };
 
-export const getRegisteredDomains = async (): Promise<DomainEntry[]> => {
+const getRegisteredDomains = async (): Promise<DomainEntry[]> => {
   const values = await browserAPIs.storage.get([Keys.Domains]);
   return values[Keys.Domains] || [];
 };
 
 const setRegisteredDomains = (domains: DomainEntry[]) => {
   browserAPIs.storage.set({ [Keys.Domains]: domains });
-};
-
-export const upsertRegisteredDomain = async (domainEntry: DomainEntry): Promise<boolean> => {
-  if (!domainEntry.domain) {
-    return false;
-  }
-
-  const registeredDomains = await getRegisteredDomains();
-  const domainIndex = registeredDomains.findIndex(
-    (registeredDomain) => registeredDomain.domain === domainEntry.domain
-  );
-
-  const isDomainRegistered = domainIndex !== -1;
-
-  if (isDomainRegistered) {
-    const newDomains = [
-      ...registeredDomains.slice(0, domainIndex),
-      domainEntry,
-      ...registeredDomains.slice(domainIndex + 1),
-    ];
-    setRegisteredDomains(newDomains);
-    return true;
-  }
-
-  setRegisteredDomains([...registeredDomains, domainEntry]);
-  return true;
-};
-
-export const deleteRegisteredDomain = async (domain: string): Promise<boolean> => {
-  const registeredDomains = await getRegisteredDomains();
-  const newRegisteredDomains = registeredDomains.filter(
-    (registeredDomain) => registeredDomain.domain !== domain
-  );
-  setRegisteredDomains(newRegisteredDomains);
-  return true;
-};
-
-const buildGetDomainInput = () => {
-  let mainDomain = '';
-
-  const init = async () => {
-    mainDomain = await getMainDomain();
-  };
-
-  const buildGetInput = (input: string) => {
-    return input.startsWith(`${mainDomain}/`) ? input : `${mainDomain}/${input}`;
-  };
-
-  init();
-
-  return buildGetInput;
 };
 
 const buildGetShortLinkURL = () => {
@@ -147,7 +88,5 @@ export const onNonMainDomainsUpdated = (
 
   init();
 };
-
-export const getDomainInput = buildGetDomainInput();
 
 export const getShortLinkURL = buildGetShortLinkURL();

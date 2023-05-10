@@ -3,7 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import SearchResults from '../../components/SearchResults';
 import AddShortLink from '../../components/AddShortLink';
-import { getHTTPSURLString, parseRawShortLink } from '../../../background/utils';
+import { parseRawShortLink } from '../../../background/utils';
+import getHTTPSURLString from '../../../shared/utils/getHTTPSURLString';
 
 const LinkNotFound = () => {
   useDocumentTitle('Link Not Found');

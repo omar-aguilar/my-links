@@ -18,7 +18,7 @@ const SearchResults = ({
   domain,
   showAdmin = false,
 }: SearchResultsProps) => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const [searchResults, setSearchResults] = useState<ShortLinkEntry[]>([]);
 
   useEffect(() => {

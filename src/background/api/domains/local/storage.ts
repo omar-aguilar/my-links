@@ -1,9 +1,6 @@
-import getBrowserAPIs from '../../../../shared/web-extension';
 import Keys from '../../../../shared/web-extension/storageKeys';
 
-const browserAPIs = getBrowserAPIs();
-
-const DomainStorage = () => {
+const DomainStorage = (browserAPIs: BrowserAPIs) => {
   const setRegisteredDomains = (domains: DomainEntry[]) => {
     browserAPIs.storage.set({ [Keys.Domains]: domains });
   };
@@ -61,8 +58,8 @@ const DomainStorage = () => {
   };
 };
 
-const StorageDomainAPI = (): DomainsAPI => {
-  const db = DomainStorage();
+const StorageDomainAPI = (browserAPIs: BrowserAPIs): DomainsAPI => {
+  const db = DomainStorage(browserAPIs);
   const getMainDomain: DomainsAPI['getMainDomain'] = async () => {
     const mainDomain = await db.getMainDomain();
     return Promise.resolve({

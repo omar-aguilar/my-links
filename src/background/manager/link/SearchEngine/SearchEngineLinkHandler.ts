@@ -1,7 +1,10 @@
-import { getResolverURLFromShortLink } from '../../../utils';
 import SearchEngineHandlerEnhancer from './SearchEngineHandlerEnhancer';
+import type { ExtensionRedirect } from '../../../../shared/utils/extensionRedirect';
 
-const SearchEngineLinkHandler = (browserAPIs: BrowserAPIs) => {
+const SearchEngineLinkHandler = (
+  browserAPIs: BrowserAPIs,
+  redirect: ReturnType<ExtensionRedirect>
+) => {
   const register = (searchEngineLinkHandler: SearchHandler) => {
     const enhancedLinkHandler = SearchEngineHandlerEnhancer(searchEngineLinkHandler);
     browserAPIs.webNavigation.onBeforeNavigate(
@@ -12,8 +15,7 @@ const SearchEngineLinkHandler = (browserAPIs: BrowserAPIs) => {
         if (!link) {
           return;
         }
-        const redirectURL = getResolverURLFromShortLink(browserAPIs.runtime, link);
-        browserAPIs.tabs.update(tabId, { url: redirectURL });
+        redirect.resolver.setLink(link).setTabId(tabId).go();
       },
       { url: enhancedLinkHandler.urlFilter }
     );

@@ -1,14 +1,13 @@
-import { getResolverURLFromShortLink } from '../../../utils';
+import type { ExtensionRedirect } from '../../../../shared/utils/extensionRedirect';
 
-const DomainLinkHandler = (browserAPIs: BrowserAPIs) => {
+const DomainLinkHandler = (browserAPIs: BrowserAPIs, redirect: ReturnType<ExtensionRedirect>) => {
   const register = (linkHandler: LinkHandler) => {
     const unregister = browserAPIs.webNavigation.onBeforeNavigate(
       async (details) => {
         const { url, tabId } = details;
         const jsURL = new URL(url);
         const shortLink = linkHandler.getLink(jsURL);
-        const redirectURL = getResolverURLFromShortLink(browserAPIs.runtime, shortLink);
-        browserAPIs.tabs.update(tabId, { url: redirectURL });
+        redirect.resolver.setLink(shortLink).setTabId(tabId).go();
       },
       { url: linkHandler.urlFilter }
     );

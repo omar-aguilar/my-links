@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { shortLinkMessageCreators } from '../../shared/messages';
-import { getRedirectURLFromShortLinkEntry } from '../../background/utils';
 import Spinner from '../Spinner';
 import useBrowserAPIs from '../../pages/common/MainContext/useBrowserAPIs';
 
@@ -10,17 +9,14 @@ enum State {
 }
 
 const App = () => {
-  const browserAPIs = useBrowserAPIs();
+  const { sendMessage, redirect } = useBrowserAPIs();
   const [state, setState] = useState<State>(State.Loading);
 
   useEffect(() => {
     const resolveLink = async (shortLink: string) => {
-      const response = await browserAPIs.runtime.sendMessage(
-        shortLinkMessageCreators.get(shortLink)
-      );
+      const response = await sendMessage(shortLinkMessageCreators.get(shortLink));
       const { shortLinkEntry } = response;
-      const redirectURL = getRedirectURLFromShortLinkEntry(browserAPIs.runtime, shortLinkEntry);
-      browserAPIs.tabs.updateCurrent({ url: redirectURL });
+      redirect.main.setLink(shortLinkEntry.link).setFallback(shortLinkEntry.shortLink).go();
       // hack to close the popup
       setTimeout(() => {
         window.close();
@@ -33,7 +29,7 @@ const App = () => {
       return;
     }
     resolveLink(shortLink);
-  }, [browserAPIs.tabs, browserAPIs.runtime]);
+  }, [sendMessage, redirect]);
 
   return (
     <div className="flex grow items-center justify-center">

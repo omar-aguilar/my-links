@@ -7,7 +7,7 @@ type DomainDropdownProps = {
 };
 
 const DomainDropdown = ({ onChange }: DomainDropdownProps) => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const [domains, setDomains] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState('');
 

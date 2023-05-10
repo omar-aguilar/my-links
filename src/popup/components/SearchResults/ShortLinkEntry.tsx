@@ -4,7 +4,7 @@ import PencilIcon from '../../icons/Pencil';
 import TagList from './TagList';
 import { shortLinkMessageCreators } from '../../../shared/messages';
 import useBrowserAPIs from '../../../pages/common/MainContext/useBrowserAPIs';
-import { getResolverURLFromShortLink } from '../../../background/utils';
+import getHTTPSURLString from '../../../shared/utils/getHTTPSURLString';
 import proxy from '../Notification/proxy';
 
 type ShortLinkEntryProps = {
@@ -13,7 +13,7 @@ type ShortLinkEntryProps = {
 };
 
 const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const navigate = useNavigate();
   const { shortLink, description } = entry;
   const redirectToAddLink = () => {
@@ -48,7 +48,7 @@ const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
       <div className="flex justify-center flex-col grow">
         <a
           className="text-violet-500 text-sm font-bold"
-          href={getResolverURLFromShortLink(browserAPIs.runtime, shortLink)}
+          href={getHTTPSURLString(shortLink)}
           data-tooltip-target="tooltip-default"
         >
           {shortLink}

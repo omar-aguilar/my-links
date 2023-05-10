@@ -9,7 +9,7 @@ type AddShortLinkProps = {
 };
 
 const AddShortLink = ({ initShortLink = '', onLinkAdded }: AddShortLinkProps) => {
-  const browserAPIs = useBrowserAPIs();
+  const { browserAPIs } = useBrowserAPIs();
   const [error, setError] = useState('');
 
   const addLink = async (shortLinkEntry: ShortLinkEntry) => {
