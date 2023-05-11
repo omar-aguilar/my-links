@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { shortLinkMessageCreators } from '../../../shared/messages';
-import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
+import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
+import { shortLinkMessageCreators } from '@/shared/messages';
 import ShortLinkForm from '../ShortLinkForm';
 
 type UpdateShortLinkProps = {

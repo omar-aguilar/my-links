@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { domainMessageCreators } from '../../../shared/messages';
+import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
+import { domainMessageCreators } from '@/shared/messages';
 import Domain from '../Domain';
-import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 
 type DomainListProps = {
   onEdit: (domain: DomainEntry) => void;

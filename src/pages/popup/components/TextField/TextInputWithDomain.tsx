@@ -1,4 +1,4 @@
-import { parseRawShortLink } from '../../../background/utils';
+import { parseRawShortLink } from '@/background/utils';
 import BaseTextInput, { InputProps } from './BaseTextInput';
 
 const TextInputWithDomain = ({ name, value, onChange }: InputProps) => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { shortLinkMessageCreators } from '../../shared/messages';
+import { shortLinkMessageCreators } from '@/shared/messages';
 import Spinner from '../Spinner';
-import useBrowserAPIs from '../../pages/shared/MainContext/useBrowserAPIs';
+import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
 
 enum State {
   Loading,

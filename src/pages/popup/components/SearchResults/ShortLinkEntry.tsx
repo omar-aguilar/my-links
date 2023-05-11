@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
+import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
+import { shortLinkMessageCreators } from '@/shared/messages';
+import getHTTPSURLString from '@/shared/utils/getHTTPSURLString';
 import XMarkIcon from '../../icons/XMark';
 import PencilIcon from '../../icons/Pencil';
 import TagList from './TagList';
-import { shortLinkMessageCreators } from '../../../shared/messages';
-import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
-import getHTTPSURLString from '../../../shared/utils/getHTTPSURLString';
 import proxy from '../Notification/proxy';
 
 type ShortLinkEntryProps = {

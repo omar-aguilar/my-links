@@ -1,4 +1,4 @@
-import MainContext from '../pages/shared/MainContext/MainContext';
+import MainContext from '@/pages/_shared/MainContext';
 import Resolver from './components/Resolver';
 
 const App = () => {

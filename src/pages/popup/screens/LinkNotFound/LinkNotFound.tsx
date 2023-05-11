@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { parseRawShortLink } from '@/background/utils';
+import getHTTPSURLString from '@/shared/utils/getHTTPSURLString';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import SearchResults from '../../components/SearchResults';
 import AddShortLink from '../../components/AddShortLink';
-import { parseRawShortLink } from '../../../background/utils';
-import getHTTPSURLString from '../../../shared/utils/getHTTPSURLString';
 
 const LinkNotFound = () => {
   useDocumentTitle('Link Not Found');

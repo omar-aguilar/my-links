@@ -11,8 +11,8 @@ dotenv.config();
 const paths = {
   src: path.join(__dirname, 'src'),
   dist: path.join(__dirname, 'dist'),
-  popup: path.join(__dirname, 'src', 'popup'),
-  resolver: path.join(__dirname, 'src', 'resolver'),
+  popup: path.join(__dirname, 'src', 'pages', 'popup'),
+  resolver: path.join(__dirname, 'src', 'pages', 'resolver'),
   background: path.join(__dirname, 'src', 'background'),
 };
 
@@ -87,6 +87,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['*', '.ts', '.tsx', '.js'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
   },
   plugins: [
     new CopyWebpackPlugin({

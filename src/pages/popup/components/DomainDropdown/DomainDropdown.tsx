@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
-import { domainMessageCreators } from '../../../shared/messages';
+import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
+import { domainMessageCreators } from '@/shared/messages';
 
 type DomainDropdownProps = {
   onChange: (domain: string) => void;

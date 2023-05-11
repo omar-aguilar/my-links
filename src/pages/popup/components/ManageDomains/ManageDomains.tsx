@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
+import { domainMessageCreators, shortLinkMessageCreators } from '@/shared/messages';
 import getCSVFromEntries from '../../utils/getCSVFromEntries';
 import DomainList from '../DomainList';
 import DomainForm from '../DomainForm';
-import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
-import { domainMessageCreators, shortLinkMessageCreators } from '../../../shared/messages';
 import proxy from '../Notification/proxy';
 
 const ManageDomains = () => {

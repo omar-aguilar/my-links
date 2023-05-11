@@ -1,7 +1,7 @@
+import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
+import getHTTPSURLString from '@/shared/utils/getHTTPSURLString';
 import AddShortLink from '../../components/AddShortLink';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
-import getHTTPSURLString from '../../../shared/utils/getHTTPSURLString';
-import useBrowserAPIs from '../../../pages/shared/MainContext/useBrowserAPIs';
 
 const AddLink = () => {
   const { redirect } = useBrowserAPIs();

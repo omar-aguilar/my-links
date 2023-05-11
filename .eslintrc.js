@@ -36,6 +36,16 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': 'off',
     'no-restricted-exports': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        '': 'never',
+        js: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
   settings: {
     react: {
