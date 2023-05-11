@@ -1,4 +1,4 @@
-import Keys from '../../../../shared/web-extension/storageKeys';
+import Keys from '@/shared/web-extension/storageKeys';
 
 const DomainStorage = (browserAPIs: BrowserAPIs) => {
   const setRegisteredDomains = (domains: DomainEntry[]) => {

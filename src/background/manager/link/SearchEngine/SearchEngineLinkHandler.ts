@@ -1,5 +1,5 @@
 import SearchEngineHandlerEnhancer from './SearchEngineHandlerEnhancer';
-import type { ExtensionRedirect } from '../../../../shared/utils/extensionRedirect';
+import type { ExtensionRedirect } from '@/shared/utils/extensionRedirect';
 
 const SearchEngineLinkHandler = (
   browserAPIs: BrowserAPIs,

@@ -10,13 +10,13 @@ import SearchEngineLinkHandler, {
 import DomainLinkHandler, { SimpleDomain } from './manager/link/Domain';
 import APIHandler from './manager/api/APIHandler';
 import MessageManager from './manager/extension/Message';
-import { ShortLinkMessage, DomainMessage } from '../shared/messages';
+import { ShortLinkMessage, DomainMessage } from '@/shared/messages';
 import OmniboxManager, {
   SuggestionsInputChanged,
   RedirectInputEntered,
 } from './manager/extension/Omnibox';
 import { loadCSVIntoAPI, onNonMainDomainsUpdated, setMainDomain, loadCSVFromURL } from './utils';
-import getBrowserAPIs from '../shared/web-extension';
+import getBrowserAPIs from '@/shared/web-extension';
 import { extensionRedirect } from '@/shared/utils';
 
 const extensionMainDomain = process.env.DOMAIN as string;

@@ -1,4 +1,4 @@
-import type { ExtensionRedirect } from '../../../../shared/utils/extensionRedirect';
+import type { ExtensionRedirect } from '@/shared/utils/extensionRedirect';
 
 const DomainLinkHandler = (browserAPIs: BrowserAPIs, redirect: ReturnType<ExtensionRedirect>) => {
   const register = (linkHandler: LinkHandler) => {

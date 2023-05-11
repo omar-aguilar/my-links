@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useMemo } from 'react';
-import getBrowserAPIs from '../../../shared/web-extension';
-import { extensionRedirect, storageListener } from '../../../shared/utils';
+import getBrowserAPIs from '@/shared/web-extension';
+import { extensionRedirect, storageListener } from '@/shared/utils';
 
 type MainContextProps = {
   sendMessage: RuntimeWrapper['sendMessage'];

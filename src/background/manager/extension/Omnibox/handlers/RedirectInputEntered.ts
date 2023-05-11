@@ -1,4 +1,4 @@
-import type { ExtensionRedirect } from '../../../../../shared/utils/extensionRedirect';
+import type { ExtensionRedirect } from '@/shared/utils/extensionRedirect';
 
 const RedirectInputEntered = (redirect: ReturnType<ExtensionRedirect>, domainsAPI: DomainsAPI) => {
   const inputEntered: OmniboxWrapper.OnInputEnteredCallback = async (input: string) => {
