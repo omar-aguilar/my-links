@@ -5,19 +5,20 @@ exports[`App renders home page 1`] = `
   class="mb-2 py-3 w-full border"
 >
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    aria-current="page"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 bg-gray-300 rounded"
     href="/"
   >
     Home
   </a>
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/add-link"
   >
     Add Link
   </a>
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/manage-domains"
   >
     Manage Domains
@@ -30,19 +31,19 @@ exports[`App renders link not found page 1`] = `
   class="mb-2 py-3 w-full border"
 >
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/"
   >
     Home
   </a>
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/add-link"
   >
     Add Link
   </a>
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/manage-domains"
   >
     Manage Domains
@@ -55,19 +56,19 @@ exports[`App renders not found page 1`] = `
   class="mb-2 py-3 w-full border"
 >
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/"
   >
     Home
   </a>
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/add-link"
   >
     Add Link
   </a>
   <a
-    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200"
+    class="text-gray-800 hover:text-gray-500 text-base mr-2 py-2 px-4 hover:bg-gray-200 "
     href="/manage-domains"
   >
     Manage Domains

@@ -6,70 +6,87 @@ exports[`Home renders without exploding 1`] = `
     My Links Home
   </h1>
   <div
-    class="mb-2"
+    class="my-2 p-2 rounded shadow-md rounded border border-gray-400"
   >
-    <label
-      class="block"
-      for="Search"
+    <h2
+      class="font-bold mb-2"
     >
-      <div
-        class="mr-2 text-base text-slate-700 font-bold"
-      >
-        Search
-      </div>
-      <div
-        class="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+      Search
+    </h2>
+    <div
+      class="mb-2"
+    >
+      <label
+        class="block"
+        for="domain-selector"
       >
         <div
-          class="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300  focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+          class="mr-2 text-base text-slate-700 font-bold"
+        >
+          Domain
+        </div>
+        <div
+          class="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300  focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 inline-flex"
         >
           <select
-            class="text-gray-500 block focus:outline-none border-none bg-transparent py-1.5 px-1  text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm"
-          >
-            <option
-              value="test"
-            >
-              test
-              /
-            </option>
-          </select>
+            class="text-gray-500 block focus:outline-none border-none bg-transparent py-1.5 px-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm"
+            id="domain-selector"
+          />
+        </div>
+      </label>
+    </div>
+    <div
+      class="mb-2"
+    >
+      <label
+        class="block"
+        for="Short Link"
+      >
+        <div
+          class="mr-2 text-base text-slate-700 font-bold"
+        >
+          Short Link
+        </div>
+        <div
+          class="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+        >
           <input
             autocomplete="off"
             class="block focus:outline-none flex-1 border-none bg-transparent py-1.5 px-1  text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm"
-            id="Search"
-            name="Search"
+            id="Short Link"
+            name="Short Link"
             type="text"
             value=""
           />
         </div>
-      </div>
-    </label>
-  </div>
-  <div
-    class="mb-2"
-  >
-    <label
-      class="block"
-      for="Search By Tag"
+      </label>
+    </div>
+    <div
+      class="mb-2"
     >
-      <div
-        class="mr-2 text-base text-slate-700 font-bold"
+      <label
+        class="block"
+        for="Tag"
       >
-        Search By Tag
-      </div>
-      <div
-        class="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
-      >
-        <input
-          autocomplete="off"
-          class="block focus:outline-none flex-1 border-none bg-transparent py-1.5 px-1  text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm"
-          id="Search By Tag"
-          name="Search By Tag"
-          type="text"
-          value=""
-        />
-      </div>
-    </label>
+        <div
+          class="mr-2 text-base text-slate-700 font-bold"
+        >
+          Tag
+        </div>
+        <div
+          class="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+        >
+          <input
+            autocomplete="off"
+            class="block focus:outline-none flex-1 border-none bg-transparent py-1.5 px-1  text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm"
+            id="Tag"
+            name="Tag"
+            type="text"
+            value=""
+          />
+        </div>
+      </label>
+    </div>
   </div>
 </div>
 `;

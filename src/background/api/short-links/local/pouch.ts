@@ -1,6 +1,7 @@
 import PouchDB from 'pouchdb-browser';
 import PouchFindPlugin from 'pouchdb-find';
-import { getEmptyShortLinkEntry, parseRawShortLink } from '../../../utils';
+import { getEmptyShortLinkEntry } from '@/background/utils';
+import { parseShortLink } from '@/shared/utils';
 
 PouchDB.plugin(PouchFindPlugin);
 const db = new PouchDB<ShortLinkEntry>('short-links');
@@ -56,7 +57,7 @@ const PouchDBAPI = (): ShortLinkAPI => {
   };
 
   const add: ShortLinkAPI['add'] = async (linkData) => {
-    const { domain } = parseRawShortLink(linkData.shortLink);
+    const { domain } = parseShortLink(linkData.shortLink);
     try {
       await db.put({
         _id: linkData.shortLink,

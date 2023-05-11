@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { parseRawShortLink } from '@/background/utils';
+import { parseShortLink } from '@/shared/utils';
 import getHTTPSURLString from '@/shared/utils/getHTTPSURLString';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 import SearchResults from '../../components/SearchResults';
@@ -23,12 +23,12 @@ const LinkNotFound = () => {
     window.location.replace(getHTTPSURLString(shortLinkEntry.shortLink));
   };
 
-  const { domain, slug } = parseRawShortLink(shortLink);
+  const { domain, slug, raw: initShortLink } = parseShortLink(shortLink);
 
   return (
     <>
       <h1>Link not found</h1>
-      <AddShortLink onLinkAdded={redirect} initShortLink={shortLink} />
+      <AddShortLink onLinkAdded={redirect} initShortLink={initShortLink} />
       <SearchResults domain={domain} shortLink={slug} tag="" title="Maybe you meant" />
     </>
   );

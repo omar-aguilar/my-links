@@ -1,7 +1,7 @@
 import { render, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { routes } from '../config/routes';
-import App from '../App';
+import { routes } from '@/pages/popup/config/routes';
+import App from '@/pages/popup/App';
 
 describe('App', () => {
   it('renders home page', async () => {

@@ -1,4 +1,5 @@
-import { getEmptyShortLinkEntry, parseRawShortLink } from '../../utils';
+import { getEmptyShortLinkEntry } from '@/background/utils';
+import { parseShortLink } from '@/shared/utils';
 
 const notRegisteredAPI: ShortLinkAPI = {
   async resolve(shortLink: string) {
@@ -22,7 +23,7 @@ const APIHandler = () => {
   const handlers = new Map<string, ShortLinkAPI>();
 
   const getDomainFromShortLink = (shortLink: string) => {
-    const { domain } = parseRawShortLink(shortLink);
+    const { domain } = parseShortLink(shortLink);
     return domain;
   };
 

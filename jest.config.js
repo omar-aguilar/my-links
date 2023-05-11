@@ -10,6 +10,7 @@ module.exports = {
   moduleDirectories: ['node_modules', '<rootDir>/src'],
   moduleNameMapper: {
     '\\.s?css$': 'identity-obj-proxy',
+    '@/(.*)': '<rootDir>/src/$1',
   },
   testPathIgnorePatterns: ['\\.mock\\.tsx?$'],
   coveragePathIgnorePatterns: ['\\.mock\\.tsx?$'],

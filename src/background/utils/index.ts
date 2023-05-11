@@ -1,3 +1,3 @@
 export { loadCSVIntoAPI, loadCSVFromURL } from './csv';
-export { parseRawShortLink, getEmptyShortLinkEntry } from './shortLink';
+export { default as getEmptyShortLinkEntry } from './getEmptyShortLinkEntry';
 export { setMainDomain, getShortLinkURL, onNonMainDomainsUpdated } from './storage';

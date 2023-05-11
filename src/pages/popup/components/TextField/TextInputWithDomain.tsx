@@ -1,8 +1,8 @@
-import { parseRawShortLink } from '@/background/utils';
+import { parseShortLink } from '@/shared/utils';
 import BaseTextInput, { InputProps } from './BaseTextInput';
 
 const TextInputWithDomain = ({ name, value, onChange }: InputProps) => {
-  const shortLink = parseRawShortLink(value);
+  const shortLink = parseShortLink(value);
   return (
     <div
       className="flex grow rounded-md shadow-sm ring-1 ring-inset ring-gray-300 

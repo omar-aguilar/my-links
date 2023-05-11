@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { parseRawShortLink } from '@/background/utils';
+import { parseShortLink } from '@/shared/utils';
 import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
 import { domainMessageCreators } from '@/shared/messages';
 import BaseTextInput, { InputProps } from './BaseTextInput';
 
 const TextInputWithDomainSelector = ({ name, value, onChange }: InputProps) => {
   const { sendMessage } = useBrowserAPIs();
-  const shortLink = parseRawShortLink(value);
+  const shortLink = parseShortLink(value);
   const [domains, setDomains] = useState<string[]>([]);
   const [selectedDomain, setSelectedDomain] = useState(shortLink.domain);
 

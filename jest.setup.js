@@ -22,6 +22,7 @@ global.chrome = {
     onMessage: {
       addListener: jest.fn(),
     },
+    sendMessage: jest.fn(),
   },
   tabs: {
     query: jest.fn(),

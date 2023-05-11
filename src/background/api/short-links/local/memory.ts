@@ -1,10 +1,11 @@
-import { getEmptyShortLinkEntry, parseRawShortLink } from '../../../utils';
+import { getEmptyShortLinkEntry } from '@/background/utils';
+import { parseShortLink } from '@/shared/utils';
 
 const ShortLinkMemoryDB = () => {
   const db: Record<string, Record<string, ShortLinkEntry>> = {};
 
   const addEntry = (shortLink: string, data: ShortLinkEntry): boolean => {
-    const { domain, slug } = parseRawShortLink(shortLink);
+    const { domain, slug } = parseShortLink(shortLink);
     if (!db[domain]) {
       db[domain] = {};
     }
@@ -13,7 +14,7 @@ const ShortLinkMemoryDB = () => {
   };
 
   const updateEntry = (shortLink: string, data: ShortLinkEntry): boolean => {
-    const { domain, slug } = parseRawShortLink(shortLink);
+    const { domain, slug } = parseShortLink(shortLink);
     if (!db[domain]?.[slug]) {
       return addEntry(shortLink, data);
     }
@@ -22,13 +23,13 @@ const ShortLinkMemoryDB = () => {
   };
 
   const deleteEntry = (shortLink: string): boolean => {
-    const { domain, slug } = parseRawShortLink(shortLink);
+    const { domain, slug } = parseShortLink(shortLink);
     delete db[domain]?.[slug];
     return true;
   };
 
   const getEntry = (shortLink: string): ShortLinkEntry => {
-    const { domain, slug } = parseRawShortLink(shortLink);
+    const { domain, slug } = parseShortLink(shortLink);
     const link = db[domain]?.[slug];
     if (!link) {
       return getEmptyShortLinkEntry(shortLink);
@@ -37,13 +38,13 @@ const ShortLinkMemoryDB = () => {
   };
 
   const search = (shortLink: string): ShortLinkEntry[] => {
-    const { domain, slug } = parseRawShortLink(shortLink);
+    const { domain, slug } = parseShortLink(shortLink);
     if (!db[domain]) {
       return [];
     }
     const cleanSlug = slug.replace(/[-_]/g, '');
     const searchResults = Object.values(db[domain]).filter((entry) => {
-      const parsedLink = parseRawShortLink(entry.shortLink);
+      const parsedLink = parseShortLink(entry.shortLink);
       const cleanKey = parsedLink.slug.replace(/[-_]/g, '');
       return parsedLink.domain === domain && cleanKey.includes(cleanSlug);
     });

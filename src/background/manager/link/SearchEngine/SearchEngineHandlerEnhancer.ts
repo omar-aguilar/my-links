@@ -1,4 +1,4 @@
-import { getShortLinkURL } from '../../../utils';
+import { getShortLinkURL } from '@/background/utils';
 
 const SearchEngineHandlerEnhancer = (searchHandler: SearchHandler): SearchHandler => {
   const getSearchTerm = (url: URL) => {
