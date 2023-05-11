@@ -2,7 +2,10 @@ import { getEmptyShortLinkEntry } from '@/background/utils';
 import { parseShortLink } from '@/shared/utils';
 
 const notRegisteredAPI: ShortLinkAPI = {
-  async resolve(shortLink: string) {
+  async resolve() {
+    return { success: false, data: '' };
+  },
+  async get(shortLink: string) {
     return { success: false, data: getEmptyShortLinkEntry(shortLink) };
   },
   async search() {
@@ -44,6 +47,10 @@ const APIHandler = () => {
     async resolve(shortLink: string) {
       const api = getAPIForDomainFromShortLink(shortLink);
       return api.resolve(shortLink);
+    },
+    async get(shortLink: string) {
+      const api = getAPIForDomainFromShortLink(shortLink);
+      return api.get(shortLink);
     },
     async search(domain, filters) {
       const api = getAPIFromDomain(domain);

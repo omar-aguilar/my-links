@@ -23,7 +23,7 @@ const LinkNotFound = () => {
     window.location.replace(getHTTPSURLString(shortLinkEntry.shortLink));
   };
 
-  const { domain, slug, raw: initShortLink } = parseShortLink(shortLink);
+  const { domain, slug, base: initShortLink } = parseShortLink(shortLink);
 
   return (
     <>

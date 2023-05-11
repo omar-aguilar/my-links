@@ -10,6 +10,7 @@ type SearchLinkFilters = {
 type ShortLinkHandlersMap = {
   create: Message.MessageHandlerConfig<'ShortLink.create', ShortLinkEntry, { success: boolean }>;
   get: Message.MessageHandlerConfig<'ShortLink.get', string, { shortLinkEntry: ShortLinkEntry }>;
+  resolve: Message.MessageHandlerConfig<'ShortLink.resolve', string, { link: string }>;
   update: Message.MessageHandlerConfig<'ShortLink.update', ShortLinkEntry, { success: boolean }>;
   delete: Message.MessageHandlerConfig<'ShortLink.delete', string, { success: boolean }>;
   search: Message.MessageHandlerConfig<
@@ -21,6 +22,7 @@ type ShortLinkHandlersMap = {
 
 const createMessageId = 'ShortLink.create';
 const getMessageId = 'ShortLink.get';
+const resolveMessageId = 'ShortLink.resolve';
 const updateMessageId = 'ShortLink.update';
 const deleteMessageId = 'ShortLink.delete';
 const searchMessageId = 'ShortLink.search';
@@ -35,6 +37,12 @@ export const shortLinkMessageCreators: MessageCreatorsMap<ShortLinkHandlersMap> 
   get(shortLink) {
     return {
       action: getMessageId,
+      data: shortLink,
+    };
+  },
+  resolve(shortLink) {
+    return {
+      action: resolveMessageId,
       data: shortLink,
     };
   },
@@ -65,8 +73,12 @@ const ShortLinkMessageHandler = (api: ShortLinkAPI): EntryMessageHandler => {
       sendResponse(response);
     },
     async get(message, sendResponse) {
-      const { data: shortLinkEntry } = await api.resolve(message.data);
+      const { data: shortLinkEntry } = await api.get(message.data);
       sendResponse({ shortLinkEntry });
+    },
+    async resolve(message, sendResponse) {
+      const { data: link } = await api.resolve(message.data);
+      sendResponse({ link });
     },
     async update(message, sendResponse) {
       const response = await api.update(message.data);
@@ -86,6 +98,7 @@ const ShortLinkMessageHandler = (api: ShortLinkAPI): EntryMessageHandler => {
   return [
     [createMessageId, handlers.create],
     [getMessageId, handlers.get],
+    [resolveMessageId, handlers.resolve],
     [updateMessageId, handlers.update],
     [deleteMessageId, handlers.delete],
     [searchMessageId, handlers.search],

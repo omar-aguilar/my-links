@@ -58,7 +58,8 @@ declare namespace ShortLinkAPI {
   } & (T extends undefined ? { error?: string } : { data: T });
 }
 interface ShortLinkAPI {
-  resolve: (shortLink: string) => Promise<ShortLinkAPI.Response<ShortLinkEntry>>;
+  resolve: (shortLink: string) => Promise<ShortLinkAPI.Response<string>>;
+  get: (shortLink: string) => Promise<ShortLinkAPI.Response<ShortLinkEntry>>;
   search: (
     domain: string,
     filters?: ShortLinkAPI.SearchFilters

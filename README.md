@@ -101,4 +101,9 @@ In case the user types the full url, the flow is as follows:
   1. A redirect to the resolver page is made with the short link
   1. The resolver page sends a message to the background to get the real link and redirect to the real link or the form to add it if is not found.
 
-Doing an extra redirect to the rsolver page, is to be able to show a friendly ui while the short links gets resolved, otherwise the user will see the network error page until the link gets resolved.
+Doing an extra redirect to the resolver page, is to be able to show a friendly ui while the short links gets resolved, otherwise the user will see the network error page until the link gets resolved.
+
+### Dynamic Links
+
+Trying to follow the spirit of go links, in theory is possible to create links as mentioned in https://www.golinks.com/help/variable-go-links/ or https://www.golinks.com/help/advanced-variable-golinks-with-default-values/
+

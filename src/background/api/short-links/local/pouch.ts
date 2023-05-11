@@ -2,6 +2,7 @@ import PouchDB from 'pouchdb-browser';
 import PouchFindPlugin from 'pouchdb-find';
 import { getEmptyShortLinkEntry } from '@/background/utils';
 import { parseShortLink } from '@/shared/utils';
+import shortLinkExpander from '../expander';
 
 PouchDB.plugin(PouchFindPlugin);
 const db = new PouchDB<ShortLinkEntry>('short-links');
@@ -78,7 +79,7 @@ const PouchDBAPI = (): ShortLinkAPI => {
     }
   };
 
-  const resolve: ShortLinkAPI['resolve'] = async (shortLink) => {
+  const get: ShortLinkAPI['get'] = async (shortLink) => {
     try {
       const foundLink = await db.get(shortLink);
       return {
@@ -89,6 +90,26 @@ const PouchDBAPI = (): ShortLinkAPI => {
       return {
         success: true,
         data: getEmptyShortLinkEntry(shortLink),
+      };
+    }
+  };
+
+  const resolve: ShortLinkAPI['resolve'] = async (shortLink) => {
+    try {
+      const parsedShortLink = parseShortLink(shortLink);
+      const foundLink = await db.get(parsedShortLink.base);
+      const expandedLink = shortLinkExpander
+        .setShortLink(shortLink)
+        .setLink(foundLink.link)
+        .build();
+      return {
+        success: true,
+        data: expandedLink,
+      };
+    } catch (e) {
+      return {
+        success: true,
+        data: '',
       };
     }
   };
@@ -124,6 +145,7 @@ const PouchDBAPI = (): ShortLinkAPI => {
 
   return {
     resolve,
+    get,
     search,
     add,
     update,

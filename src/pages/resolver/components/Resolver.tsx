@@ -14,9 +14,8 @@ const App = () => {
 
   useEffect(() => {
     const resolveLink = async (shortLink: string) => {
-      const response = await sendMessage(shortLinkMessageCreators.get(shortLink));
-      const { shortLinkEntry } = response;
-      redirect.main.setLink(shortLinkEntry.link).setFallback(shortLinkEntry.shortLink).go();
+      const { link } = await sendMessage(shortLinkMessageCreators.resolve(shortLink));
+      redirect.main.setLink(link).setFallback(shortLink).go();
       // hack to close the popup
       setTimeout(() => {
         window.close();

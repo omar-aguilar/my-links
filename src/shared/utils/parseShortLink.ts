@@ -1,9 +1,10 @@
 type ParsedShortLink = {
   domain: string;
   slug: string;
-  raw: string;
+  base: string;
   isValid: boolean;
   params: string[];
+  raw: string;
 };
 
 const parseShortLink = (shortLink: string): ParsedShortLink => {
@@ -15,10 +16,11 @@ const parseShortLink = (shortLink: string): ParsedShortLink => {
       slug,
       params: cleanParams,
       isValid: true,
-      raw: `${domain}/${slug}`,
+      base: `${domain}/${slug}`,
+      raw: shortLink,
     };
   } catch {
-    return { slug: '', domain: '', isValid: false, params: [], raw: shortLink };
+    return { slug: '', domain: '', isValid: false, params: [], base: '', raw: shortLink };
   }
 };
 
