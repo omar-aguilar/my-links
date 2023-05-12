@@ -1,7 +1,7 @@
 {
   "name": "mylinks",
   "version": "1.0.0",
-  "description": "An simple implementation of go links",
+  "description": "A simple implementation of go links",
   "main": "index.js",
   "scripts": {
     "build": "npm run build:dev",

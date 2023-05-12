@@ -16,6 +16,13 @@ const paths = {
   background: path.join(__dirname, 'src', 'background'),
 };
 
+const localCSVDBMeta = {
+  filename: 'seedDB.csv',
+  get localPath() {
+    return path.join(__dirname, 'src', 'background', 'data', this.filename);
+  },
+};
+
 // firefox extension manifest doesn't support background.service_worker
 const getFirefoxManifestOverrides = () => {
   if (process.env.BROWSER !== 'firefox') {
@@ -110,12 +117,17 @@ module.exports = {
             return JSON.stringify(manifest, null, 2);
           },
         },
+        {
+          from: localCSVDBMeta.localPath,
+          noErrorOnMissing: true,
+        },
       ],
     }),
     new DefinePlugin({
       'process.env': {
         DOMAIN: JSON.stringify(process.env.DOMAIN || ''),
         CSV_DB_URL: JSON.stringify(process.env.CSV_DB_URL || ''),
+        LOCAL_CSV_DB_URL: JSON.stringify(localCSVDBMeta.filename),
       },
     }),
     new HtmlWebpackPlugin({

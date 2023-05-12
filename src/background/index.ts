@@ -1,4 +1,3 @@
-import csvData from './data/seedDB.csv';
 import LocalPouchAPI from './api/short-links/local/pouch';
 import StorageDomainAPI from './api/domains/local/storage';
 import SearchEngineLinkHandler, {
@@ -15,11 +14,19 @@ import OmniboxManager, {
   SuggestionsInputChanged,
   RedirectInputEntered,
 } from './manager/extension/Omnibox';
-import { loadCSVIntoAPI, onNonMainDomainsUpdated, setMainDomain, loadCSVFromURL } from './utils';
+import {
+  loadCSVIntoAPI,
+  onNonMainDomainsUpdated,
+  setMainDomain,
+  loadCSVFromURL,
+  getEnvironment,
+} from './utils';
 import getBrowserAPIs from '@/shared/web-extension';
 import { extensionRedirect } from '@/shared/utils';
 
-const extensionMainDomain = process.env.DOMAIN as string;
+const env = getEnvironment();
+
+const extensionMainDomain = env.DOMAIN;
 
 const browserAPIs = getBrowserAPIs();
 const redirect = extensionRedirect(browserAPIs);
@@ -33,10 +40,16 @@ const apiHandler = APIHandler();
 
 setMainDomain(extensionMainDomain);
 
-loadCSVFromURL(process.env.CSV_DB_URL).then((csv) => {
-  const data = csv || csvData;
-  loadCSVIntoAPI(data, extensionMainDomain, shortLinksAPI);
-});
+loadCSVFromURL(env.CSV_DB_URL)
+  .catch(() => loadCSVFromURL(browserAPIs.runtime.getURL(env.LOCAL_CSV_DB_URL)))
+  .then((csv) => {
+    const data = csv || '';
+    loadCSVIntoAPI(data, extensionMainDomain, shortLinksAPI);
+  })
+  .catch(() => {
+    // eslint-disable-next-line no-console
+    console.debug('no initial csv data loaded');
+  });
 
 apiHandler.register(extensionMainDomain, shortLinksAPI);
 onNonMainDomainsUpdated((domains: string[]) =>

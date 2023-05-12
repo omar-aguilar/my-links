@@ -49,14 +49,17 @@ export const loadCSVIntoAPI = (csvData: string, mainDomain: string, api: ShortLi
 
 export const loadCSVFromURL = async (url: string | undefined) => {
   if (!url) {
-    return null;
+    throw new Error('No URL provided');
   }
 
   try {
     const data = await fetch(url);
+    if (data.status !== 200) {
+      throw new Error('Could not fetch CSV');
+    }
     const csv = await data.text();
     return csv;
   } catch {
-    return null;
+    throw new Error('Error in fetch');
   }
 };
