@@ -28,8 +28,8 @@ const buildGetShortLinkURL = () => {
     browserAPIs.storage.onChanged([Keys.Domains], (changes) => {
       domains = getDomains(changes[Keys.Domains]);
     });
-    const values = await browserAPIs.storage.get([Keys.Domains]);
-    domains = getDomains(values[Keys.Domains]);
+    const registeredDomains = await getRegisteredDomains();
+    domains = getDomains(registeredDomains);
   };
 
   const getShortLinkURL = (searchTerm: string): string => {
@@ -81,8 +81,8 @@ export const onNonMainDomainsUpdated = (
       const domains = getDomains(changes[Keys.Domains]);
       registerDomains(domains);
     });
-    const values = await browserAPIs.storage.get([Keys.Domains]);
-    const domains = getDomains(values[Keys.Domains]);
+    const registeredDomains = await getRegisteredDomains();
+    const domains = getDomains(registeredDomains);
     registerDomains(domains);
   };
 
