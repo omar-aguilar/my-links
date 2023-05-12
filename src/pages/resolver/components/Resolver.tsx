@@ -16,10 +16,6 @@ const App = () => {
     const resolveLink = async (shortLink: string) => {
       const { link } = await sendMessage(shortLinkMessageCreators.resolve(shortLink));
       redirect.main.setLink(link).setFallback(shortLink).go();
-      // hack to close the popup
-      setTimeout(() => {
-        window.close();
-      }, 1000);
     };
     const searchParams = new URLSearchParams(window.location.search);
     const shortLink = searchParams.get('shortLink');

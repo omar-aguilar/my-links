@@ -1,5 +1,4 @@
 import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
-import getHTTPSURLString from '@/shared/utils/getHTTPSURLString';
 import AddShortLink from '../../components/AddShortLink';
 import useDocumentTitle from '../../hooks/useDocumentTitle';
 
@@ -8,12 +7,7 @@ const AddLink = () => {
   useDocumentTitle('Add New Link');
 
   const redirectOnAdded = (shortLinkEntry: ShortLinkEntry) => {
-    const link = getHTTPSURLString(shortLinkEntry.shortLink);
-    redirect.main.setLink(link).go();
-    // hack to close the popup
-    setTimeout(() => {
-      window.close();
-    }, 1000);
+    redirect.resolver.setLink(shortLinkEntry.shortLink).go();
   };
 
   return (

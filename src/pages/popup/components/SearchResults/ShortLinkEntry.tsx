@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useBrowserAPIs from '@/pages/_shared/MainContext/useBrowserAPIs';
 import { shortLinkMessageCreators } from '@/shared/messages';
@@ -13,7 +14,7 @@ type ShortLinkEntryProps = {
 };
 
 const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
-  const { sendMessage } = useBrowserAPIs();
+  const { sendMessage, redirect } = useBrowserAPIs();
   const navigate = useNavigate();
   const { shortLink, description } = entry;
   const redirectToAddLink = () => {
@@ -41,12 +42,18 @@ const ShortLinkEntry = ({ entry, showAdmin }: ShortLinkEntryProps) => {
     }
   };
 
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    redirect.resolver.setLink(shortLink).go();
+  };
+
   return (
     <div className="border py-2 px-4 rounded bg-gray-50 flex">
       <div className="flex justify-center flex-col grow">
         <a
           className="text-violet-500 text-sm font-bold"
           href={getHTTPSURLString(shortLink)}
+          onClick={handleClick}
           data-tooltip-target="tooltip-default"
         >
           {shortLink}
